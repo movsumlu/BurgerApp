@@ -18,7 +18,7 @@ const BurgerConstructor = () => {
           index === ingredients.length - 1 ? styles.ingredientLastItem : "";
 
         return (
-          <div key={_id} className={styles.ingredientBlock}>
+          <div key={_id} className={styles.ingredientWrapper}>
             <DragIcon type="primary" />
 
             <div
