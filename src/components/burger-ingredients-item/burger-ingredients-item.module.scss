@@ -1,0 +1,25 @@
+.ingredientsBlock {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: scroll;
+}
+
+.ingredientsBlockItem {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  position: relative;
+  width: 240px;
+  margin: 24px 24px 40px 16px;
+}
+
+.price {
+  display: flex;
+  margin: 4px 0;
+}
+
+.counter {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
