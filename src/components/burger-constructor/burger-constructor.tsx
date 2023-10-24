@@ -12,24 +12,27 @@ import styles from "./style.module.scss";
 const BurgerConstructor = () => {
   return (
     <div className={styles.burgerConstructorContainer}>
-      {orderList.map(({ id, isLocked, type, name, price, image_mobile }) => {
-        return (
-          <div key={id} className={styles.ingredientItem}>
-            {!isLocked ? (
-              <DragIcon type={"primary"} />
-            ) : (
-              <div className={"pl-6"} />
-            )}
+      {orderList.map(
+        ({ id, isLocked, type, name, price, image_mobile }: any) => {
+          return (
+            <div key={id} className={styles.ingredientItem}>
+              {!isLocked ? (
+                <DragIcon type={"primary"} />
+              ) : (
+                <div className={"pl-6"} />
+              )}
 
-            <ConstructorElement
-              isLocked={isLocked}
-              text={name}
-              price={price}
-              thumbnail={image_mobile}
-            />
-          </div>
-        );
-      })}
+              <ConstructorElement
+                isLocked={isLocked}
+                text={name}
+                type={type}
+                price={price}
+                thumbnail={image_mobile}
+              />
+            </div>
+          );
+        }
+      )}
 
       <div className={styles.checkoutBlock}>
         <div className={styles.totalPrice}>
