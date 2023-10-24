@@ -1,0 +1,22 @@
+.burgerConstructorContainer {
+  margin: 100px 0 0 100px;
+}
+
+.ingredientItem {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  gap: 10px;
+}
+
+.checkoutBlock {
+  display: flex;
+  justify-content: end;
+  margin: 40px 0;
+}
+
+.totalPrice {
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+}

@@ -4,7 +4,7 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import BurgerIngredientsItem from "../burger-ingredients-item/burger-ingredients-item";
 
-import { ingredients } from "../../utils/data";
+import { ingredients } from "../../utils/ingredients";
 
 const BurgerIngredients = () => {
   const [selectedIngredient, setSelectedIngredient] = useState("bun");

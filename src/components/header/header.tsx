@@ -5,7 +5,7 @@ import {
   Logo,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import styles from "./app-header.module.scss";
+import styles from "./style.module.scss";
 
 const AppHeader = () => {
   return (

@@ -5,20 +5,20 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import styles from "./burger-ingredients-item.module.scss";
+import styles from "./style.module.scss";
 
 const BurgerIngredientsItem = ({ items }: any) => {
   return (
     <div className={styles.ingredientsBlock}>
-      {items.map((item: any) => {
+      {items.map(({ _id, image, price, name }: any) => {
         return (
-          <div className={styles.ingredientsBlockItem} key={item._id}>
+          <div className={styles.ingredientsBlockItem} key={_id}>
             <Counter count={1} size="default" extraClass={styles.counter} />
-            <img src={item.image} alt="ingredientImage" />
+            <img src={image} alt="ingredientImage" />
 
             <div className={styles.price}>
               <span className="text text_type_digits-default mr-2">
-                {item.price}
+                {price}
               </span>
               <CurrencyIcon type="primary" />
             </div>
@@ -27,7 +27,7 @@ const BurgerIngredientsItem = ({ items }: any) => {
               className="text text_type_main-default"
               style={{ textAlign: "center" }}
             >
-              {item.name}
+              {name}
             </p>
           </div>
         );
@@ -43,14 +43,6 @@ BurgerIngredientsItem.propTypes = {
       image: PropTypes.string.isRequired,
       price: PropTypes.number.isRequired,
       name: PropTypes.string.isRequired,
-      type: PropTypes.string,
-      proteins: PropTypes.number,
-      fat: PropTypes.number,
-      carbohydrates: PropTypes.number,
-      calories: PropTypes.number,
-      image_mobile: PropTypes.string,
-      image_large: PropTypes.string,
-      __v: PropTypes.number,
     })
   ).isRequired,
 };
