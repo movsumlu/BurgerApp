@@ -9,6 +9,11 @@ import { orderList } from "../../utils/order-list";
 
 import styles from "./style.module.scss";
 
+const totalPrice = orderList.reduce(
+  (accumulator, { price }) => accumulator + price,
+  0
+);
+
 const BurgerConstructor = () => {
   return (
     <div className={styles.burgerConstructorContainer}>
@@ -27,7 +32,7 @@ const BurgerConstructor = () => {
 
       <div className={styles.checkoutBlock}>
         <div className={styles.totalPrice}>
-          <p className="text text_type_digits-medium mr-2">610</p>
+          <p className="text text_type_digits-medium mr-2">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
 
