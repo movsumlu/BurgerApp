@@ -1,5 +1,3 @@
-import PropTypes from "prop-types";
-
 import {
   DragIcon,
   ConstructorElement,
@@ -31,14 +29,6 @@ const BurgerConstructorItem = (props: IBurgerConstructorItemProps) => {
       />
     </div>
   );
-};
-
-BurgerConstructorItem.propTypes = {
-  isLocked: PropTypes.bool.isRequired,
-  text: PropTypes.string.isRequired,
-  type: PropTypes.oneOf(["bottom", "top"]),
-  price: PropTypes.number.isRequired,
-  thumbnail: PropTypes.string.isRequired,
 };
 
 export default BurgerConstructorItem;
