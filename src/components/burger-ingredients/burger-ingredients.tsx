@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -30,6 +30,26 @@ const BurgerIngredients = () => {
     },
   ];
 
+  const bunRef = useRef<HTMLHeadingElement | null>(null);
+  const sauceRef = useRef<HTMLHeadingElement | null>(null);
+  const mainRef = useRef<HTMLHeadingElement | null>(null);
+
+  const onSelectedIngredient = (value: string) => {
+    setSelectedIngredient(value);
+
+    if (value === "bun" && bunRef.current) {
+      bunRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+
+    if (value === "sauce" && sauceRef.current) {
+      sauceRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+
+    if (value === "main" && mainRef.current) {
+      mainRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <>
       <h1 className="text text_type_main-large mt-10 mb-5">
@@ -43,9 +63,7 @@ const BurgerIngredients = () => {
               key={value}
               value={value}
               active={selectedIngredient === value}
-              onClick={() => {
-                setSelectedIngredient(value);
-              }}
+              onClick={() => onSelectedIngredient(value)}
             >
               {name}
             </Tab>
@@ -54,13 +72,19 @@ const BurgerIngredients = () => {
       </div>
 
       <div className={styles.burgerIngredientsWrapper}>
-        <h3 className="text text_type_main-medium mt-10">Булки</h3>
+        <h3 className="text text_type_main-medium mt-10" ref={bunRef}>
+          Булки
+        </h3>
         <BurgerIngredientsItem items={buns} />
 
-        <h3 className="text text_type_main-medium">Соусы</h3>
+        <h3 className="text text_type_main-medium" ref={sauceRef}>
+          Соусы
+        </h3>
         <BurgerIngredientsItem items={sauces} />
 
-        <h3 className="text text_type_main-medium">Начинки</h3>
+        <h3 className="text text_type_main-medium" ref={mainRef}>
+          Начинки
+        </h3>
         <BurgerIngredientsItem items={mains} />
       </div>
     </>
