@@ -1,8 +1,11 @@
 import { nutritions } from "../../consts";
+import { IBurgerIngredientsItem } from "../../types/interfaces";
 
 import styles from "./style.module.scss";
 
-const IngredientDetails = (props: { selectedIngredient: any }) => {
+const IngredientDetails = (props: {
+  selectedIngredient: IBurgerIngredientsItem;
+}) => {
   const { selectedIngredient } = props;
 
   return (
@@ -24,7 +27,11 @@ const IngredientDetails = (props: { selectedIngredient: any }) => {
             <div className={styles.nutritionItem} key={name}>
               <div>{description}</div>
               <div className="text text_type_digits-default pt-2">
-                {selectedIngredient[name]}
+                {
+                  selectedIngredient[
+                    name as "proteins" | "fat" | "carbohydrates" | "calories"
+                  ]
+                }
               </div>
             </div>
           );

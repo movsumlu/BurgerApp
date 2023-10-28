@@ -15,9 +15,13 @@ const BurgerIngredients = (props: {
 }) => {
   const { ingredients } = props;
 
-  const [selectedIngredient, setSelectedIngredient] = useState(ingredients[0]);
-  const [selectedIngredientNav, setSelectedIngredientNav] = useState("bun");
-  const [viewModal, setViewModal] = useState(false);
+  const [selectedIngredient, setSelectedIngredient] =
+    useState<IBurgerIngredientsItem | null>(null);
+
+  const [selectedIngredientNav, setSelectedIngredientNav] =
+    useState<string>("bun");
+
+  const [viewModal, setViewModal] = useState<boolean>(false);
 
   const buns = ingredients.filter(({ type }) => type === "bun");
   const sauces = ingredients.filter(({ type }) => type === "sauce");
@@ -64,7 +68,9 @@ const BurgerIngredients = (props: {
     }
   };
 
-  const handleSelectIngredient = (ingredient: IBurgerIngredientsItem) => {
+  const handleSelectIngredient = (
+    ingredient: IBurgerIngredientsItem | null
+  ) => {
     setSelectedIngredient(ingredient);
     setViewModal(true);
   };
