@@ -17,7 +17,7 @@ const BurgerConstructorItem = (props: IBurgerConstructorItemProps) => {
   const { isLocked, text, type, price, thumbnail } = props;
 
   return (
-    <div className={styles.ingredientItem}>
+    <div className={styles.burgerConstructorItem}>
       {!isLocked ? <DragIcon type={"primary"} /> : <div className={"pl-6"} />}
 
       <ConstructorElement

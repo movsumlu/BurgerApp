@@ -1,0 +1,10 @@
+.modalOverlay {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 999;
+}

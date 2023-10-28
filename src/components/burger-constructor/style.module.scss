@@ -2,6 +2,22 @@
   margin: 100px 0 0 100px;
 }
 
+.burgerConstructorItemWrapper {
+  height: 837px;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    height: 12px;
+    width: 8px;
+    background-color: #2f2f37;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #8585ad;
+    border-radius: 6px;
+  }
+}
+
 .checkoutBlock {
   display: flex;
   justify-content: end;
