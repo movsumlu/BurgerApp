@@ -25,8 +25,8 @@ const IngredientDetails = (props: {
         {nutritions.map(({ description, name }) => {
           return (
             <div className={styles.nutritionItem} key={name}>
-              <div>{description}</div>
-              <div className="text text_type_digits-default pt-2">
+              <div className="text text_type_main-default">{description}</div>
+              <div className="text text_type_digits-default pt-2 ">
                 {
                   selectedIngredient[
                     name as "proteins" | "fat" | "carbohydrates" | "calories"
