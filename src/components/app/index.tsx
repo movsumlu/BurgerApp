@@ -4,6 +4,7 @@ import Header from "../header";
 import Main from "../main";
 
 import { apiURL } from "../../consts";
+import { checkResponse } from "../../utils/burger-API";
 
 import styles from "./style.module.scss";
 
@@ -13,14 +14,7 @@ const App = () => {
 
   useEffect(() => {
     fetch(`${apiURL}/api/ingredients`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          setHasErrorsWithFetching(true);
-          throw new Error("Response is not OK");
-        }
-      })
+      .then(checkResponse)
       .then(({ data }) => setIngredients(data))
       .catch((error) => {
         setHasErrorsWithFetching(true);
