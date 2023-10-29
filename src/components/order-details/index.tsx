@@ -4,7 +4,8 @@ import styles from "./style.module.scss";
 
 const OrderDetails = () => {
   const orderNumber = 345368;
-  const orderStatus = "Дождитесь готовности на орбитальной станции";
+  const orderStatus = "Ваш заказ начали готовить";
+  const orderDescription = "Дождитесь готовности на орбитальной станции";
 
   return (
     <div className={styles.orderDetails}>
@@ -21,10 +22,10 @@ const OrderDetails = () => {
       </div>
 
       <p className={`${styles.orderStatusTitle} text text_type_main-default`}>
-        Ваш заказ начали готовить
+        {orderStatus}
       </p>
       <p className={`${styles.orderStatusMessage} text text_type_main-default`}>
-        {orderStatus}
+        {orderDescription}
       </p>
     </div>
   );
