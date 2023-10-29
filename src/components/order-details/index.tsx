@@ -20,8 +20,14 @@ const OrderDetails = () => {
         <CheckMarkIcon type={"primary"} />
       </div>
 
-      <div className={styles.orderStatusTitle}>Ваш заказ начали готовить</div>
-      <div className={styles.orderStatusMessage}>{orderStatus}</div>
+      <div className={`${styles.orderStatusTitle} text text_type_main-default`}>
+        Ваш заказ начали готовить
+      </div>
+      <div
+        className={`${styles.orderStatusMessage} text text_type_main-default`}
+      >
+        {orderStatus}
+      </div>
     </div>
   );
 };
