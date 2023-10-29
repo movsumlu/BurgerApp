@@ -17,22 +17,22 @@ const IngredientDetails = (props: {
           alt="modalImage"
         />
 
-        <div className={`${styles.modalText} text text_type_main-medium`}>
+        <p className={`${styles.modalText} text text_type_main-medium`}>
           {selectedIngredient.name}
-        </div>
+        </p>
       </div>
       <div className={styles.nutritionBlock}>
         {nutritions.map(({ description, name }) => {
           return (
             <div className={styles.nutritionItem} key={name}>
-              <div className="text text_type_main-default">{description}</div>
-              <div className="text text_type_digits-default pt-2 ">
+              <p className="text text_type_main-default">{description}</p>
+              <p className="text text_type_digits-default pt-2 ">
                 {
                   selectedIngredient[
                     name as "proteins" | "fat" | "carbohydrates" | "calories"
                   ]
                 }
-              </div>
+              </p>
             </div>
           );
         })}

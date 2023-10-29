@@ -8,26 +8,24 @@ const OrderDetails = () => {
 
   return (
     <div className={styles.orderDetails}>
-      <div className={`${styles.orderNumber} text text_type_digits-large`}>
+      <p className={`${styles.orderNumber} text text_type_digits-large`}>
         {orderNumber}
-      </div>
+      </p>
 
-      <div className={`${styles.orderTitle} text text_type_main-medium pt-8`}>
+      <p className={`${styles.orderTitle} text text_type_main-medium pt-8`}>
         Идентификатор заказа
-      </div>
+      </p>
 
       <div className={styles.orderIconWrapper}>
         <CheckMarkIcon type={"primary"} />
       </div>
 
-      <div className={`${styles.orderStatusTitle} text text_type_main-default`}>
+      <p className={`${styles.orderStatusTitle} text text_type_main-default`}>
         Ваш заказ начали готовить
-      </div>
-      <div
-        className={`${styles.orderStatusMessage} text text_type_main-default`}
-      >
+      </p>
+      <p className={`${styles.orderStatusMessage} text text_type_main-default`}>
         {orderStatus}
-      </div>
+      </p>
     </div>
   );
 };
