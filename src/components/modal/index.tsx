@@ -1,10 +1,14 @@
 import { useEffect, ReactNode } from "react";
+import ReactDOM from "react-dom";
 
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import ModalOverlay from "../modal-overlay";
 
 import styles from "./style.module.scss";
+
+const modalRoot =
+  document.getElementById("modalRoot") || document.createElement("div");
 
 const Modal = (props: {
   headerText: string;
@@ -27,7 +31,7 @@ const Modal = (props: {
     };
   }, [onClose]);
 
-  return (
+  return ReactDOM.createPortal(
     <>
       <ModalOverlay onClick={onClose} />
       <div className={styles.modal}>
@@ -43,7 +47,8 @@ const Modal = (props: {
 
         <div className={styles.modalContent}>{props.children}</div>
       </div>
-    </>
+    </>,
+    modalRoot
   );
 };
 

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -23,9 +23,20 @@ const BurgerIngredients = (props: {
 
   const [viewModal, setViewModal] = useState<boolean>(false);
 
-  const buns = ingredients.filter(({ type }) => type === "bun");
-  const sauces = ingredients.filter(({ type }) => type === "sauce");
-  const mains = ingredients.filter(({ type }) => type === "main");
+  const buns = useMemo(
+    () => ingredients.filter(({ type }) => type === "bun"),
+    [ingredients]
+  );
+
+  const sauces = useMemo(
+    () => ingredients.filter(({ type }) => type === "sauce"),
+    [ingredients]
+  );
+
+  const mains = useMemo(
+    () => ingredients.filter(({ type }) => type === "main"),
+    [ingredients]
+  );
 
   const bunRef = useRef<HTMLHeadingElement | null>(null);
   const sauceRef = useRef<HTMLHeadingElement | null>(null);

@@ -12,7 +12,13 @@ const App = () => {
 
   useEffect(() => {
     fetch(`${apiURL}/api/ingredients`)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error("Response is not OK");
+        }
+      })
       .then(({ data }) => setIngredients(data))
       .catch((error) => console.error(error));
   }, []);

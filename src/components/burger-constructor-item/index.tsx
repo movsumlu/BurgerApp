@@ -26,6 +26,7 @@ const BurgerConstructorItem = (props: IBurgerConstructorItemProps) => {
         type={type}
         price={price}
         thumbnail={thumbnail}
+        extraClass={styles.burgerConstructorElement}
       />
     </div>
   );
