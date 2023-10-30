@@ -1,6 +1,10 @@
-.ingredientItem {
+.burgerConstructorItem {
   display: flex;
   align-items: center;
-  margin-bottom: 25px;
+  margin: 0 25px 25px 0;
   gap: 10px;
+}
+
+.burgerConstructorElement {
+  width: 435px;
 }

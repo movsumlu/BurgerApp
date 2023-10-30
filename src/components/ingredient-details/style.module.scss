@@ -1,0 +1,28 @@
+.modalWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalImage {
+  width: 520px;
+  height: 240px;
+}
+
+.modalText {
+  text-align: center;
+}
+
+.nutritionBlock {
+  display: grid;
+  grid-auto-flow: column;
+  color: #8585ad;
+  margin-top: 40px;
+}
+
+.nutritionItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
