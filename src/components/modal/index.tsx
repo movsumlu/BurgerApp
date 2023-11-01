@@ -55,4 +55,8 @@ const Modal = (props: {
     : null;
 };
 
+Modal.defaultProps = {
+  headerText: "",
+};
+
 export default Modal;

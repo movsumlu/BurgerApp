@@ -2,8 +2,8 @@ import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-component
 
 import styles from "./style.module.scss";
 
-const OrderDetails = () => {
-  const orderNumber = 345368;
+const OrderDetails = (props: { orderNumber: number | null }) => {
+  const orderNumber = props.orderNumber;
   const orderStatus = "Ваш заказ начали готовить";
   const orderDescription = "Дождитесь готовности на орбитальной станции";
 
