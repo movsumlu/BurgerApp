@@ -31,21 +31,21 @@ const BurgerConstructor = () => {
   const filteredIngredients: IBurgerIngredientsItem[] = useMemo(() => {
     const bun = ingredients.find(({ type }) => type === "bun");
 
+    if (!bun) return [...ingredients];
+
     const ingredientsWithoutBuns = ingredients.filter(
       ({ type }) => type !== "bun"
     );
 
-    return bun
-      ? [
-          { ...bun, position: "top" },
-          ...ingredientsWithoutBuns,
-          { ...bun, position: "bottom" },
-        ]
-      : [...ingredientsWithoutBuns];
+    return [
+      { ...bun, position: "top" },
+      ...ingredientsWithoutBuns,
+      { ...bun, position: "bottom" },
+    ];
   }, [ingredients]);
 
   const IDOfIngredients = useMemo(
-    () => filteredIngredients.map((ingredient) => ingredient._id),
+    () => filteredIngredients.map(({ _id }) => _id),
     [filteredIngredients]
   );
 
@@ -68,7 +68,7 @@ const BurgerConstructor = () => {
       });
   };
 
-  const handleCloseModal = () => {
+  const closeModal = () => {
     setViewModal(false);
   };
 
@@ -110,7 +110,7 @@ const BurgerConstructor = () => {
       </div>
 
       {viewModal && !hasErrorsWithFetching && (
-        <Modal onClose={handleCloseModal}>
+        <Modal onClose={closeModal}>
           <OrderDetails orderNumber={orderNumber} />
         </Modal>
       )}
