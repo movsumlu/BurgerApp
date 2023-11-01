@@ -6,11 +6,16 @@ import Main from "../main";
 import { apiURL } from "../../consts";
 import { checkResponse } from "../../utils/burger-API";
 
+import { BurgerConstructorContext } from "../../services/burgerConstructorContext";
+
 import styles from "./style.module.scss";
 
 const App = () => {
   const [ingredients, setIngredients] = useState([]);
   const [hasErrorsWithFetching, setHasErrorsWithFetching] = useState(false);
+
+  const errorText =
+    "При загрузке данных произошла ошибка. Повторите попытку попозже.";
 
   useEffect(() => {
     fetch(`${apiURL}/api/ingredients`)
@@ -26,13 +31,15 @@ const App = () => {
     <div className={styles.app}>
       {hasErrorsWithFetching ? (
         <p className={`${styles.errorText} text text_type_main-large`}>
-          При загрузке данных произошла ошибка. <br /> Повторите попытку
-          попозже.
+          {errorText}
         </p>
       ) : (
         <>
           <Header />
-          <Main ingredients={ingredients} />
+
+          <BurgerConstructorContext.Provider value={{ ingredients }}>
+            <Main />
+          </BurgerConstructorContext.Provider>
         </>
       )}
     </div>

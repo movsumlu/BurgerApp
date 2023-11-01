@@ -1,4 +1,4 @@
-import { useState, useRef, useMemo } from "react";
+import { useState, useRef, useMemo, useContext } from "react";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -6,14 +6,14 @@ import BurgerIngredientsItem from "../burger-ingredients-item";
 import Modal from "../modal";
 import IngredientDetails from "../ingredient-details";
 
+import { BurgerConstructorContext } from "../../services/burgerConstructorContext";
+
 import { IBurgerIngredientsItem } from "../../types/interfaces";
 
 import styles from "./style.module.scss";
 
-const BurgerIngredients = (props: {
-  ingredients: IBurgerIngredientsItem[];
-}) => {
-  const { ingredients } = props;
+const BurgerIngredients = () => {
+  const { ingredients } = useContext(BurgerConstructorContext);
 
   const [selectedIngredient, setSelectedIngredient] =
     useState<IBurgerIngredientsItem | null>(null);

@@ -11,4 +11,5 @@ export interface IBurgerIngredientsItem {
   image_mobile: string;
   image_large: string;
   __v: number;
+  position?: "top" | "bottom";
 }
