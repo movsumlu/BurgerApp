@@ -1,21 +1,17 @@
 import { useState, useEffect } from "react";
 
-import Header from "../header";
-import Main from "../main";
+import Header from "components/header";
+import Main from "components/main";
 
-import { apiURL } from "../../consts";
-import { checkResponse } from "../../utils/burger-API";
-
-import { BurgerConstructorContext } from "../../services/burgerConstructorContext";
+import { apiURL, checkResponse } from "utils/burger-API";
+import { BurgerConstructorContext } from "services/burgerConstructorContext";
+import { errorText } from "consts";
 
 import styles from "./style.module.scss";
 
 const App = () => {
   const [ingredients, setIngredients] = useState([]);
   const [hasErrorsWithFetching, setHasErrorsWithFetching] = useState(false);
-
-  const errorText =
-    "При загрузке данных произошла ошибка. Повторите попытку попозже.";
 
   useEffect(() => {
     fetch(`${apiURL}/api/ingredients`)

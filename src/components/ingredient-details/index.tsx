@@ -1,5 +1,5 @@
-import { nutritions } from "../../consts";
-import { IBurgerIngredientsItem } from "../../types/interfaces";
+import { nutritions } from "consts";
+import { IBurgerIngredientsItem } from "types/interfaces";
 
 import styles from "./style.module.scss";
 

@@ -5,14 +5,13 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import BurgerConstructorItem from "../burger-constructor-item";
-import OrderDetails from "../order-details";
-import Modal from "../modal";
+import BurgerConstructorItem from "components/burger-constructor-item";
+import OrderDetails from "components/order-details";
+import Modal from "components/modal";
 
-import { apiURL } from "../../consts";
-import { IBurgerIngredientsItem } from "../../types/interfaces";
-import { BurgerConstructorContext } from "../../services/burgerConstructorContext";
-import { checkResponse } from "../../utils/burger-API";
+import { apiURL, checkResponse } from "utils/burger-API";
+import { IBurgerIngredientsItem } from "types/interfaces";
+import { BurgerConstructorContext } from "services/burgerConstructorContext";
 
 import styles from "./style.module.scss";
 
@@ -68,10 +67,6 @@ const BurgerConstructor = () => {
       });
   };
 
-  const closeModal = () => {
-    setViewModal(false);
-  };
-
   return (
     <div className={styles.burgerConstructorContainer}>
       <div className={styles.burgerConstructorItemWrapper}>
@@ -110,7 +105,7 @@ const BurgerConstructor = () => {
       </div>
 
       {viewModal && !hasErrorsWithFetching && (
-        <Modal onClose={closeModal}>
+        <Modal onClose={() => setViewModal(false)}>
           <OrderDetails orderNumber={orderNumber} />
         </Modal>
       )}

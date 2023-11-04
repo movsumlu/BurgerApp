@@ -1,3 +1,5 @@
+export const apiURL = "https://norma.nomoreparties.space";
+
 export const checkResponse = (response: Response) =>
   response.ok
     ? response.json()

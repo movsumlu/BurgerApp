@@ -1,5 +1,5 @@
-import BurgerConstructor from "../burger-constructor";
-import BurgerIngredients from "../burger-ingredients";
+import BurgerConstructor from "components/burger-constructor";
+import BurgerIngredients from "components/burger-ingredients";
 
 import styles from "./style.module.scss";
 

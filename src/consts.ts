@@ -1,4 +1,5 @@
-export const apiURL = "https://norma.nomoreparties.space";
+export const errorText =
+  "При загрузке данных произошла ошибка. Повторите попытку попозже.";
 
 export const nutritions = [
   {

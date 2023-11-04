@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-import { IBurgerIngredientsItem } from "../types/interfaces";
+import { IBurgerIngredientsItem } from "types/interfaces";
 
 type BurgerConstructorContextType = {
   ingredients: IBurgerIngredientsItem[];

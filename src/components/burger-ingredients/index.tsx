@@ -2,13 +2,13 @@ import { useState, useRef, useMemo, useContext } from "react";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import BurgerIngredientsItem from "../burger-ingredients-item";
-import Modal from "../modal";
-import IngredientDetails from "../ingredient-details";
+import BurgerIngredientsItem from "components/burger-ingredients-item";
+import Modal from "components/modal";
+import IngredientDetails from "components/ingredient-details";
 
-import { BurgerConstructorContext } from "../../services/burgerConstructorContext";
+import { BurgerConstructorContext } from "services/burgerConstructorContext";
 
-import { IBurgerIngredientsItem } from "../../types/interfaces";
+import { IBurgerIngredientsItem } from "types/interfaces";
 
 import styles from "./style.module.scss";
 
