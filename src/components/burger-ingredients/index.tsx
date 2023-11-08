@@ -1,4 +1,5 @@
-import { useState, useRef, useMemo, useContext } from "react";
+import { useState, useRef, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
@@ -6,22 +7,28 @@ import BurgerIngredientsItem from "components/burger-ingredients-item";
 import Modal from "components/modal";
 import IngredientDetails from "components/ingredient-details";
 
-import { BurgerConstructorContext } from "services/burgerConstructorContext";
+import {
+  displayIngredientModal,
+  hideIngredientModal,
+  selectIngredient,
+} from "store/modal/slice";
+
+import { ingredientsSelector } from "store/ingredients/selectors";
+import { modalSelector } from "store/modal/selectors";
 
 import { IBurgerIngredientsItem } from "types/interfaces";
 
 import styles from "./style.module.scss";
 
 const BurgerIngredients = () => {
-  const { ingredients } = useContext(BurgerConstructorContext);
+  const dispatch = useDispatch();
 
-  const [selectedIngredient, setSelectedIngredient] =
-    useState<IBurgerIngredientsItem | null>(null);
+  const { ingredients } = useSelector(ingredientsSelector);
+  const { showIngredientModal, selectedIngredient } =
+    useSelector(modalSelector);
 
   const [selectedIngredientNav, setSelectedIngredientNav] =
     useState<string>("bun");
-
-  const [viewModal, setViewModal] = useState<boolean>(false);
 
   const buns = useMemo(
     () => ingredients.filter(({ type }) => type === "bun"),
@@ -79,15 +86,9 @@ const BurgerIngredients = () => {
     }
   };
 
-  const handleSelectIngredient = (
-    ingredient: IBurgerIngredientsItem | null
-  ) => {
-    setSelectedIngredient(ingredient);
-    setViewModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setViewModal(false);
+  const handleSelectIngredient = (ingredient: IBurgerIngredientsItem) => {
+    dispatch(selectIngredient(ingredient));
+    dispatch(displayIngredientModal());
   };
 
   return (
@@ -130,8 +131,11 @@ const BurgerIngredients = () => {
         ))}
       </div>
 
-      {viewModal && selectedIngredient && (
-        <Modal headerText="Детали ингредиента" onClose={handleCloseModal}>
+      {showIngredientModal && selectedIngredient && (
+        <Modal
+          headerText="Детали ингредиента"
+          onClose={() => dispatch(hideIngredientModal())}
+        >
           <IngredientDetails selectedIngredient={selectedIngredient} />
         </Modal>
       )}

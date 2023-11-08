@@ -1,41 +1,36 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import Header from "components/header";
 import Main from "components/main";
 
-import { apiURL, checkResponse } from "utils/burger-API";
-import { BurgerConstructorContext } from "services/burgerConstructorContext";
 import { errorText } from "consts";
+
+import { ingredientsSelector } from "store/ingredients/selectors";
+import { fetchIngredients } from "store/ingredients/asyncThunks";
+import { AppDispatch } from "store";
 
 import styles from "./style.module.scss";
 
 const App = () => {
-  const [ingredients, setIngredients] = useState([]);
-  const [hasErrorsWithFetching, setHasErrorsWithFetching] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const { errors } = useSelector(ingredientsSelector);
 
   useEffect(() => {
-    fetch(`${apiURL}/api/ingredients`)
-      .then(checkResponse)
-      .then(({ data }) => setIngredients(data))
-      .catch((error) => {
-        setHasErrorsWithFetching(true);
-        console.error(error);
-      });
-  }, []);
+    dispatch(fetchIngredients());
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
-      {hasErrorsWithFetching ? (
+      {errors ? (
         <p className={`${styles.errorText} text text_type_main-large`}>
           {errorText}
         </p>
       ) : (
         <>
           <Header />
-
-          <BurgerConstructorContext.Provider value={{ ingredients }}>
-            <Main />
-          </BurgerConstructorContext.Provider>
+          <Main />
         </>
       )}
     </div>

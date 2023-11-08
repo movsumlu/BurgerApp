@@ -1,4 +1,5 @@
-import { useState, useMemo, useContext } from "react";
+import { useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   CurrencyIcon,
@@ -9,18 +10,26 @@ import BurgerConstructorItem from "components/burger-constructor-item";
 import OrderDetails from "components/order-details";
 import Modal from "components/modal";
 
-import { apiURL, checkResponse } from "utils/burger-API";
+import { ingredientsSelector } from "store/ingredients/selectors";
+import { modalSelector } from "store/modal/selectors";
+
+import { AppDispatch } from "store";
+
+import {
+  checkoutOrder,
+  displayOrderModal,
+  hideOrderModal,
+} from "store/modal/slice";
+
 import { IBurgerIngredientsItem } from "types/interfaces";
-import { BurgerConstructorContext } from "services/burgerConstructorContext";
 
 import styles from "./style.module.scss";
 
 const BurgerConstructor = () => {
-  const { ingredients } = useContext(BurgerConstructorContext);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const [viewModal, setViewModal] = useState(false);
-  const [hasErrorsWithFetching, setHasErrorsWithFetching] = useState(false);
-  const [orderNumber, setOrderNumber] = useState(null);
+  const { ingredients } = useSelector(ingredientsSelector);
+  const { showOrderModal, order } = useSelector(modalSelector);
 
   const totalPrice = useMemo(
     () => ingredients.reduce((acc, { price }) => acc + price, 0),
@@ -48,23 +57,9 @@ const BurgerConstructor = () => {
     [filteredIngredients]
   );
 
-  const checkoutOrder = () => {
-    fetch(`${apiURL}/api/orders`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ ingredients: IDOfIngredients }),
-    })
-      .then(checkResponse)
-      .then(({ order }) => {
-        setOrderNumber(order.number);
-        setViewModal(true);
-      })
-      .catch((error) => {
-        setHasErrorsWithFetching(true);
-        console.error(error);
-      });
+  const checkoutOrderHandler = () => {
+    dispatch(checkoutOrder(IDOfIngredients));
+    dispatch(displayOrderModal());
   };
 
   return (
@@ -98,15 +93,15 @@ const BurgerConstructor = () => {
           htmlType="button"
           type="primary"
           size="large"
-          onClick={checkoutOrder}
+          onClick={checkoutOrderHandler}
         >
           Оформить заказ
         </Button>
       </div>
 
-      {viewModal && !hasErrorsWithFetching && (
-        <Modal onClose={() => setViewModal(false)}>
-          <OrderDetails orderNumber={orderNumber} />
+      {showOrderModal && (
+        <Modal onClose={() => dispatch(hideOrderModal())}>
+          <OrderDetails orderNumber={order && order.number} />
         </Modal>
       )}
     </div>
