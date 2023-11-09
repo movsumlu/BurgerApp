@@ -27,8 +27,7 @@ const BurgerIngredients = () => {
   const { showIngredientModal, selectedIngredient } =
     useSelector(modalSelector);
 
-  const [selectedIngredientNav, setSelectedIngredientNav] =
-    useState<string>("bun");
+  const [selectedIngredientNav, setSelectedIngredientNav] = useState("bun");
 
   const buns = useMemo(
     () => ingredients.filter(({ type }) => type === "bun"),
@@ -45,9 +44,11 @@ const BurgerIngredients = () => {
     [ingredients]
   );
 
-  const bunRef = useRef<HTMLHeadingElement | null>(null);
-  const sauceRef = useRef<HTMLHeadingElement | null>(null);
-  const mainRef = useRef<HTMLHeadingElement | null>(null);
+  const ingredientsNavWrapperRef = useRef<HTMLDivElement | null>(null);
+
+  const bunRef = useRef<HTMLDivElement | null>(null);
+  const sauceRef = useRef<HTMLDivElement | null>(null);
+  const mainRef = useRef<HTMLDivElement | null>(null);
 
   const ingredientTypes = [
     {
@@ -91,6 +92,41 @@ const BurgerIngredients = () => {
     dispatch(displayIngredientModal());
   };
 
+  const handleOnScroll = () => {
+    if (
+      ingredientsNavWrapperRef.current &&
+      bunRef.current &&
+      sauceRef.current &&
+      mainRef.current
+    ) {
+      const bunDistance = Math.abs(
+        ingredientsNavWrapperRef.current.getBoundingClientRect().top -
+          bunRef.current.getBoundingClientRect().top
+      );
+
+      const sauceDistance = Math.abs(
+        ingredientsNavWrapperRef.current.getBoundingClientRect().top -
+          sauceRef.current.getBoundingClientRect().top
+      );
+
+      const mainDistance = Math.abs(
+        ingredientsNavWrapperRef.current.getBoundingClientRect().top -
+          mainRef.current.getBoundingClientRect().top
+      );
+
+      const minDistance = Math.min(bunDistance, sauceDistance, mainDistance);
+
+      const currentHeader =
+        minDistance === bunDistance
+          ? "bun"
+          : minDistance === sauceDistance
+          ? "sauce"
+          : "main";
+
+      setSelectedIngredientNav(currentHeader);
+    }
+  };
+
   return (
     <>
       <h1 className="text text_type_main-large mt-10 mb-5">
@@ -112,7 +148,11 @@ const BurgerIngredients = () => {
         })}
       </div>
 
-      <div className={styles.burgerIngredientsWrapper}>
+      <div
+        ref={ingredientsNavWrapperRef}
+        className={styles.burgerIngredientsWrapper}
+        onScroll={handleOnScroll}
+      >
         {ingredientTypes.map(({ name, ref, items }) => (
           <div key={name}>
             <h3 className="text text_type_main-medium mt-10" ref={ref}>

@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useDrop } from "react-dnd";
 
 import {
   CurrencyIcon,
@@ -10,8 +11,10 @@ import BurgerConstructorItem from "components/burger-constructor-item";
 import OrderDetails from "components/order-details";
 import Modal from "components/modal";
 
-import { ingredientsSelector } from "store/ingredients/selectors";
+import { orderListSelector } from "store/orderList/selectors";
 import { modalSelector } from "store/modal/selectors";
+
+import { IBurgerIngredientsItem } from "types/interfaces";
 
 import { AppDispatch } from "store";
 
@@ -21,86 +24,108 @@ import {
   hideOrderModal,
 } from "store/modal/slice";
 
-import { IBurgerIngredientsItem } from "types/interfaces";
+import {
+  addBuns,
+  addIngredient,
+  clearOrderList,
+  deleteIngredient,
+} from "store/orderList/slice";
 
 import styles from "./style.module.scss";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { ingredients } = useSelector(ingredientsSelector);
+  const { orderList } = useSelector(orderListSelector);
+
   const { showOrderModal, order } = useSelector(modalSelector);
 
-  const totalPrice = useMemo(
-    () => ingredients.reduce((acc, { price }) => acc + price, 0),
-    [ingredients]
+  const hasBunInOrderList = useMemo(
+    () => !!orderList.filter(({ type }) => type === "bun").length,
+    [orderList]
   );
 
-  const filteredIngredients: IBurgerIngredientsItem[] = useMemo(() => {
-    const bun = ingredients.find(({ type }) => type === "bun");
+  const [{ isDrag }, drop] = useDrop({
+    accept: "ingredient",
+    drop(ingredient: IBurgerIngredientsItem[]) {
+      if (ingredient[0].type === "bun" && !hasBunInOrderList) {
+        dispatch(addBuns(ingredient));
+      } else if (ingredient[0].type !== "bun") {
+        dispatch(addIngredient(ingredient));
+      }
+    },
+    collect: (monitor) => ({
+      isDrag: monitor.canDrop(),
+    }),
+  });
 
-    if (!bun) return [...ingredients];
-
-    const ingredientsWithoutBuns = ingredients.filter(
-      ({ type }) => type !== "bun"
-    );
-
-    return [
-      { ...bun, position: "top" },
-      ...ingredientsWithoutBuns,
-      { ...bun, position: "bottom" },
-    ];
-  }, [ingredients]);
+  const totalPrice = useMemo(
+    () => orderList.reduce((acc, { price }) => acc + price, 0),
+    [orderList]
+  );
 
   const IDOfIngredients = useMemo(
-    () => filteredIngredients.map(({ _id }) => _id),
-    [filteredIngredients]
+    () => orderList.map(({ _id }) => _id),
+    [orderList]
   );
 
-  const checkoutOrderHandler = () => {
-    dispatch(checkoutOrder(IDOfIngredients));
+  const checkoutOrderHandler = async () => {
+    await dispatch(checkoutOrder(IDOfIngredients));
+    dispatch(clearOrderList());
     dispatch(displayOrderModal());
   };
 
+  const closeOrderModalHandler = () => {
+    dispatch(hideOrderModal());
+  };
+
   return (
-    <div className={styles.burgerConstructorContainer}>
-      <div className={styles.burgerConstructorItemWrapper}>
-        {filteredIngredients.map(
-          ({ type, name, price, image_mobile }, index) => {
+    <div
+      className={`${styles.burgerConstructorContainer} ${
+        isDrag && styles.containerBorder
+      }`}
+      ref={drop}
+    >
+      <div
+        className={styles.burgerConstructorItemWrapper}
+        style={{ opacity: isDrag ? 0.5 : 1 }}
+      >
+        {orderList.length ? (
+          orderList.map((item, index) => {
             return (
               <BurgerConstructorItem
                 key={index}
-                isLocked={
-                  index === 0 || index === ingredients.length - 1 ? true : false
-                }
-                text={name}
-                type={type as "bottom" | "top" | undefined}
-                price={price}
-                thumbnail={image_mobile}
+                item={item}
+                isLocked={item.type === "bun"}
+                deleteIngredient={() => dispatch(deleteIngredient(index))}
               />
             );
-          }
+          })
+        ) : (
+          <p className={styles.helpText}>
+            Переместите сюда ингредиент для добавления в заказ
+          </p>
         )}
       </div>
+      {!!orderList.length && (
+        <div className={styles.checkoutBlock}>
+          <div className={styles.totalPrice}>
+            <p className="text text_type_digits-medium mr-2">{totalPrice}</p>
+            <CurrencyIcon type="primary" />
+          </div>
 
-      <div className={styles.checkoutBlock}>
-        <div className={styles.totalPrice}>
-          <p className="text text_type_digits-medium mr-2">{totalPrice}</p>
-          <CurrencyIcon type="primary" />
+          <Button
+            htmlType="button"
+            type="primary"
+            size="large"
+            onClick={checkoutOrderHandler}
+          >
+            Оформить заказ
+          </Button>
         </div>
-
-        <Button
-          htmlType="button"
-          type="primary"
-          size="large"
-          onClick={checkoutOrderHandler}
-        >
-          Оформить заказ
-        </Button>
-      </div>
-
+      )}
       {showOrderModal && (
-        <Modal onClose={() => dispatch(hideOrderModal())}>
+        <Modal onClose={closeOrderModalHandler}>
           <OrderDetails orderNumber={order && order.number} />
         </Modal>
       )}

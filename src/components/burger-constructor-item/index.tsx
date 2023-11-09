@@ -1,20 +1,22 @@
+import { useDrag, useDrop } from "react-dnd";
+
 import {
   DragIcon,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import { IBurgerIngredientsItem } from "types/interfaces";
+
 import styles from "./style.module.scss";
 
 interface IBurgerConstructorItemProps {
-  isLocked: boolean;
-  type?: "bottom" | "top";
-  text: string;
-  price: number;
-  thumbnail: string;
+  item: IBurgerIngredientsItem;
+  isLocked: true | false;
+  deleteIngredient: () => void;
 }
 
 const BurgerConstructorItem = (props: IBurgerConstructorItemProps) => {
-  const { isLocked, text, type, price, thumbnail } = props;
+  const { item, isLocked, deleteIngredient } = props;
 
   return (
     <div className={styles.burgerConstructorItem}>
@@ -22,10 +24,10 @@ const BurgerConstructorItem = (props: IBurgerConstructorItemProps) => {
 
       <ConstructorElement
         isLocked={isLocked}
-        text={text}
-        type={type}
-        price={price}
-        thumbnail={thumbnail}
+        text={item.name}
+        price={item.price}
+        thumbnail={item.image_mobile}
+        handleClose={deleteIngredient}
         extraClass={styles.burgerConstructorElement}
       />
     </div>
