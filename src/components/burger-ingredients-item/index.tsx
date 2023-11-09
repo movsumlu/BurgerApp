@@ -45,6 +45,8 @@ const BurgerIngredientsItem = (props: {
     return map;
   }, [orderList]);
 
+  const draggingOpacity = isDragging && styles.draggingOpacity;
+
   return (
     <div className={styles.ingredientsBlock}>
       {items.map((item: IBurgerIngredientsItem) => {
@@ -52,8 +54,7 @@ const BurgerIngredientsItem = (props: {
           <div
             key={item._id}
             ref={drag}
-            className={styles.ingredientsBlockItem}
-            style={{ opacity: isDragging ? 0.5 : 1 }}
+            className={`${styles.ingredientsBlockItem} ${draggingOpacity}`}
             onClick={() => selectIngredient(item)}
           >
             {countMap.get(item._id) && (

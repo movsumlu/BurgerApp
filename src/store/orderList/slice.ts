@@ -33,9 +33,18 @@ const orderListSlice = createSlice({
       };
     },
     addBuns(state, action) {
+      let orderListWithoutBuns = [...state.orderList];
+      orderListWithoutBuns = orderListWithoutBuns.filter(
+        ({ type }) => type !== "bun"
+      );
+
       return {
         ...state,
-        orderList: [...action.payload, ...state.orderList, ...action.payload],
+        orderList: [
+          ...action.payload,
+          ...orderListWithoutBuns,
+          ...action.payload,
+        ],
       };
     },
     replaceIngredient(state, action) {

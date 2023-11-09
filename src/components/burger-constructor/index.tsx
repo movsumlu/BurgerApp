@@ -40,15 +40,10 @@ const BurgerConstructor = () => {
 
   const { showOrderModal, order } = useSelector(modalSelector);
 
-  const hasBunInOrderList = useMemo(
-    () => !!orderList.filter(({ type }) => type === "bun").length,
-    [orderList]
-  );
-
   const [{ isDrag }, drop] = useDrop({
     accept: "ingredient",
     drop(ingredient: IBurgerIngredientsItem[]) {
-      if (ingredient[0].type === "bun" && !hasBunInOrderList) {
+      if (ingredient[0].type === "bun") {
         dispatch(addBuns(ingredient));
       } else if (ingredient[0].type !== "bun") {
         dispatch(addIngredient(ingredient));
@@ -79,6 +74,8 @@ const BurgerConstructor = () => {
     dispatch(hideOrderModal());
   };
 
+  const draggingOpacity = isDrag && styles.draggingOpacity;
+
   return (
     <div
       className={`${styles.burgerConstructorContainer} ${
@@ -87,8 +84,7 @@ const BurgerConstructor = () => {
       ref={drop}
     >
       <div
-        className={styles.burgerConstructorItemWrapper}
-        style={{ opacity: isDrag ? 0.5 : 1 }}
+        className={`${styles.burgerConstructorItemWrapper} ${draggingOpacity}`}
       >
         {orderList.length ? (
           orderList.map((item, index) => {
