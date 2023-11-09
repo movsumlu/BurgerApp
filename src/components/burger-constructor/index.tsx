@@ -95,6 +95,7 @@ const BurgerConstructor = () => {
             return (
               <BurgerConstructorItem
                 key={index}
+                index={index}
                 item={item}
                 isLocked={item.type === "bun"}
                 deleteIngredient={() => dispatch(deleteIngredient(index))}

@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { IBurgerIngredientsItem } from "types/interfaces";
+import { swapArrayElements } from "utils/helper";
 
 interface IOrderListState {
   orderList: IBurgerIngredientsItem[];
@@ -14,12 +15,17 @@ const orderListSlice = createSlice({
   initialState,
   reducers: {
     addIngredient(state, action) {
-      const updatedOrderList = [...state.orderList];
-      updatedOrderList.splice(
-        updatedOrderList.length - 1,
-        0,
-        ...action.payload
-      );
+      let updatedOrderList = [...state.orderList];
+
+      if (!updatedOrderList.filter((item) => item.type === "bun").length) {
+        updatedOrderList = [...state.orderList, ...action.payload];
+      } else {
+        updatedOrderList.splice(
+          updatedOrderList.length - 1,
+          0,
+          ...action.payload
+        );
+      }
 
       return {
         ...state,
@@ -30,6 +36,22 @@ const orderListSlice = createSlice({
       return {
         ...state,
         orderList: [...action.payload, ...state.orderList, ...action.payload],
+      };
+    },
+    replaceIngredient(state, action) {
+      const { dragIndex, hoverIndex } = action.payload;
+
+      let replacedOrderList = [...state.orderList];
+
+      replacedOrderList = swapArrayElements(
+        replacedOrderList,
+        dragIndex,
+        hoverIndex
+      );
+
+      return {
+        ...state,
+        orderList: replacedOrderList,
       };
     },
     deleteIngredient(state, action) {
@@ -50,7 +72,12 @@ const orderListSlice = createSlice({
   },
 });
 
-export const { addIngredient, addBuns, deleteIngredient, clearOrderList } =
-  orderListSlice.actions;
+export const {
+  addIngredient,
+  addBuns,
+  replaceIngredient,
+  deleteIngredient,
+  clearOrderList,
+} = orderListSlice.actions;
 
 export default orderListSlice.reducer;
