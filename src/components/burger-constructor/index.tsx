@@ -43,7 +43,7 @@ const BurgerConstructor = () => {
     drop(ingredient: IBurgerIngredientsItem[]) {
       if (ingredient[0].type === "bun") {
         dispatch(addBuns(ingredient));
-      } else if (ingredient[0].type !== "bun") {
+      } else {
         dispatch(addIngredient(ingredient));
       }
     },
