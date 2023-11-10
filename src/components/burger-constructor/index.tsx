@@ -41,11 +41,9 @@ const BurgerConstructor = () => {
   const [{ isDrag }, drop] = useDrop({
     accept: "ingredient",
     drop(ingredient: IBurgerIngredientsItem[]) {
-      if (ingredient[0].type === "bun") {
-        dispatch(addBuns(ingredient));
-      } else {
-        dispatch(addIngredient(ingredient));
-      }
+      ingredient[0].type === "bun"
+        ? dispatch(addBuns(ingredient))
+        : dispatch(addIngredient(ingredient));
     },
     collect: (monitor) => ({
       isDrag: monitor.canDrop(),
