@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { apiURL, checkResponse } from "utils/burger-API";
+import { API_URL, checkResponse } from "utils/burger-API";
 
 export const fetchIngredients = createAsyncThunk(
   "ingredients/fetchIngredients",
   async () => {
     try {
-      const response = await fetch(`${apiURL}/api/ingredients`);
+      const response = await fetch(`${API_URL}/api/ingredients`);
       const { data } = await checkResponse(response);
       return data;
     } catch (error) {

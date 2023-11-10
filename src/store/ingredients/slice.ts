@@ -6,12 +6,16 @@ import { IBurgerIngredientsItem } from "types/interfaces";
 
 interface IIngredientsState {
   ingredients: IBurgerIngredientsItem[];
+  selectedIngredient: IBurgerIngredientsItem | null;
+  showIngredientModal: boolean;
   loading: boolean;
   errors: any;
 }
 
 const initialState: IIngredientsState = {
   ingredients: [],
+  selectedIngredient: null,
+  showIngredientModal: false,
   loading: false,
   errors: null,
 };
@@ -23,6 +27,25 @@ const ingredientsSlice = createSlice({
     uploadIngredients(state, action: PayloadAction<IBurgerIngredientsItem[]>) {
       state.ingredients = action.payload;
     },
+    selectIngredient(state, action: PayloadAction<IBurgerIngredientsItem>) {
+      return {
+        ...state,
+        selectedIngredient: action.payload,
+      };
+    },
+    displayIngredientModal(state) {
+      return {
+        ...state,
+        showIngredientModal: true,
+      };
+    },
+    hideIngredientModal(state) {
+      return {
+        ...state,
+        selectedIngredient: null,
+        showIngredientModal: false,
+      };
+    },
   },
 
   extraReducers: (builder) => {
@@ -32,7 +55,6 @@ const ingredientsSlice = createSlice({
         loading: true,
       };
     });
-
     builder.addCase(
       fetchIngredients.fulfilled,
       (state, action: PayloadAction<IBurgerIngredientsItem[]>) => {
@@ -43,7 +65,6 @@ const ingredientsSlice = createSlice({
         };
       }
     );
-
     builder.addCase(
       fetchIngredients.rejected,
       (state: IIngredientsState, action) => {
@@ -57,7 +78,12 @@ const ingredientsSlice = createSlice({
   },
 });
 
-export const { uploadIngredients } = ingredientsSlice.actions;
+export const {
+  uploadIngredients,
+  selectIngredient,
+  displayIngredientModal,
+  hideIngredientModal,
+} = ingredientsSlice.actions;
 
 export default ingredientsSlice.reducer;
 

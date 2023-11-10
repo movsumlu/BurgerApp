@@ -5,7 +5,7 @@ export const swapArrayElements = (
   sourceIndex: number,
   targetIndex: number
 ) => {
-  let tempArray = array[sourceIndex];
+  const tempArray = array[sourceIndex];
 
   array[sourceIndex] = array[targetIndex];
   array[targetIndex] = tempArray;

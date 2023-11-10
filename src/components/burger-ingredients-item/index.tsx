@@ -8,7 +8,7 @@ import {
 
 import { useDrag } from "react-dnd";
 
-import { orderListSelector } from "store/orderList/selectors";
+import { orderSelector } from "store/order/selectors";
 
 import { IBurgerIngredientsItem } from "types/interfaces";
 
@@ -20,7 +20,7 @@ const BurgerIngredientsItem = (props: {
 }) => {
   const items = props.items;
 
-  const { orderList } = useSelector(orderListSelector);
+  const { orderList } = useSelector(orderSelector);
 
   const selectIngredient = (item: IBurgerIngredientsItem) => {
     props.onSelectIngredient(item);

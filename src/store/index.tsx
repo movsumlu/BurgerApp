@@ -1,15 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import ingredients from "store/ingredients/slice";
-import orderList from "store/orderList/slice";
-import modal from "store/modal/slice";
+import order from "store/order/slice";
 
 export const store = configureStore({
   devTools: process.env.NODE_ENV === "development",
   reducer: {
     ingredients,
-    orderList,
-    modal,
+    order,
   },
 });
 

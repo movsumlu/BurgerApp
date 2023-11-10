@@ -11,34 +11,32 @@ import BurgerConstructorItem from "components/burger-constructor-item";
 import OrderDetails from "components/order-details";
 import Modal from "components/modal";
 
-import { orderListSelector } from "store/orderList/selectors";
-import { modalSelector } from "store/modal/selectors";
+import { orderSelector } from "store/order/selectors";
 
 import { IBurgerIngredientsItem } from "types/interfaces";
 
 import { AppDispatch } from "store";
 
 import {
-  checkoutOrder,
-  displayOrderModal,
-  hideOrderModal,
-} from "store/modal/slice";
-
-import {
   addBuns,
   addIngredient,
+  checkoutOrder,
   clearOrderList,
   deleteIngredient,
-} from "store/orderList/slice";
+  displayOrderModal,
+  hideOrderModal,
+} from "store/order/slice";
 
 import styles from "./style.module.scss";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const { orderList } = useSelector(orderListSelector);
+  const { order, orderList, showOrderModal } = useSelector(orderSelector);
 
-  const { showOrderModal, order } = useSelector(modalSelector);
+  const hasBun = useMemo(() => {
+    return orderList.some((ingredient) => ingredient.type === "bun");
+  }, [orderList]);
 
   const [{ isDrag }, drop] = useDrop({
     accept: "ingredient",
@@ -116,6 +114,7 @@ const BurgerConstructor = () => {
             type="primary"
             size="large"
             onClick={checkoutOrderHandler}
+            disabled={hasBun ? false : true}
           >
             Оформить заказ
           </Button>

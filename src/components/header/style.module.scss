@@ -9,6 +9,11 @@
   vertical-align: top;
 }
 
-nav {
+.navItem {
+  text-decoration: none;
   cursor: pointer;
+}
+
+.navItem span {
+  color: white;
 }

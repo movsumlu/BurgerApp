@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { apiURL, checkResponse } from "utils/burger-API";
+import { API_URL, checkResponse } from "utils/burger-API";
 
 export const checkoutOrder = createAsyncThunk(
   "modal/checkoutOrder",
   async (IDOfIngredients: Array<string>) => {
     try {
-      const response = await fetch(`${apiURL}/api/orders`, {
+      const response = await fetch(`${API_URL}/api/orders`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

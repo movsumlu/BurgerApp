@@ -8,13 +8,12 @@ import Modal from "components/modal";
 import IngredientDetails from "components/ingredient-details";
 
 import {
+  selectIngredient,
   displayIngredientModal,
   hideIngredientModal,
-  selectIngredient,
-} from "store/modal/slice";
+} from "store/ingredients/slice";
 
 import { ingredientsSelector } from "store/ingredients/selectors";
-import { modalSelector } from "store/modal/selectors";
 
 import { IBurgerIngredientsItem } from "types/interfaces";
 
@@ -23,9 +22,8 @@ import styles from "./style.module.scss";
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
 
-  const { ingredients } = useSelector(ingredientsSelector);
-  const { showIngredientModal, selectedIngredient } =
-    useSelector(modalSelector);
+  const { ingredients, selectedIngredient, showIngredientModal } =
+    useSelector(ingredientsSelector);
 
   const [selectedIngredientNav, setSelectedIngredientNav] = useState("bun");
 
