@@ -1,7 +1,7 @@
-export const errorText =
+export const ERROR_TEXT =
   "При загрузке данных произошла ошибка. Повторите попытку попозже.";
 
-export const nutritions = [
+export const NUTRITIONS = [
   {
     name: "calories",
     description: "Калории, ккал",

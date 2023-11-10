@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Header from "components/header";
 import Main from "components/main";
 
-import { errorText } from "consts";
+import { ERROR_TEXT } from "consts";
 
 import { ingredientsSelector } from "store/ingredients/selectors";
 import { fetchIngredients } from "store/ingredients/asyncThunks";
@@ -24,8 +24,8 @@ const App = () => {
   return (
     <div className={styles.app}>
       {errors ? (
-        <p className={`${styles.errorText} text text_type_main-large`}>
-          {errorText}
+        <p className={`${styles.ERROR_TEXT} text text_type_main-large`}>
+          {ERROR_TEXT}
         </p>
       ) : (
         <>
