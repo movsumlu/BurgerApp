@@ -3,13 +3,18 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  background: #1c1c21;
 }
 
 .headerItemText {
   vertical-align: top;
 }
 
-nav {
+.navItem {
+  color: #8585ad;
+  text-decoration: none;
   cursor: pointer;
+}
+
+.active {
+  color: white;
 }

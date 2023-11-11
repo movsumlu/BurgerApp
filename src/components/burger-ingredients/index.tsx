@@ -1,27 +1,31 @@
-import { useState, useRef, useMemo, useContext } from "react";
+import { useState, useRef, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import BurgerIngredientsItem from "../burger-ingredients-item";
-import Modal from "../modal";
-import IngredientDetails from "../ingredient-details";
+import BurgerIngredientsItem from "components/burger-ingredients-item";
+import Modal from "components/modal";
+import IngredientDetails from "components/ingredient-details";
 
-import { BurgerConstructorContext } from "../../services/burgerConstructorContext";
+import {
+  selectIngredient,
+  displayIngredientModal,
+  hideIngredientModal,
+} from "store/ingredients/slice";
 
-import { IBurgerIngredientsItem } from "../../types/interfaces";
+import { ingredientsSelector } from "store/ingredients/selectors";
+
+import { IBurgerIngredientsItem } from "types/interfaces";
 
 import styles from "./style.module.scss";
 
 const BurgerIngredients = () => {
-  const { ingredients } = useContext(BurgerConstructorContext);
+  const dispatch = useDispatch();
 
-  const [selectedIngredient, setSelectedIngredient] =
-    useState<IBurgerIngredientsItem | null>(null);
+  const { ingredients, selectedIngredient, showIngredientModal } =
+    useSelector(ingredientsSelector);
 
-  const [selectedIngredientNav, setSelectedIngredientNav] =
-    useState<string>("bun");
-
-  const [viewModal, setViewModal] = useState<boolean>(false);
+  const [selectedIngredientNav, setSelectedIngredientNav] = useState("bun");
 
   const buns = useMemo(
     () => ingredients.filter(({ type }) => type === "bun"),
@@ -38,9 +42,11 @@ const BurgerIngredients = () => {
     [ingredients]
   );
 
-  const bunRef = useRef<HTMLHeadingElement | null>(null);
-  const sauceRef = useRef<HTMLHeadingElement | null>(null);
-  const mainRef = useRef<HTMLHeadingElement | null>(null);
+  const ingredientsNavWrapperRef = useRef<HTMLDivElement | null>(null);
+
+  const bunRef = useRef<HTMLDivElement | null>(null);
+  const sauceRef = useRef<HTMLDivElement | null>(null);
+  const mainRef = useRef<HTMLDivElement | null>(null);
 
   const ingredientTypes = [
     {
@@ -79,15 +85,44 @@ const BurgerIngredients = () => {
     }
   };
 
-  const handleSelectIngredient = (
-    ingredient: IBurgerIngredientsItem | null
-  ) => {
-    setSelectedIngredient(ingredient);
-    setViewModal(true);
+  const handleSelectIngredient = (ingredient: IBurgerIngredientsItem) => {
+    dispatch(selectIngredient(ingredient));
+    dispatch(displayIngredientModal());
   };
 
-  const handleCloseModal = () => {
-    setViewModal(false);
+  const handleOnScroll = () => {
+    if (
+      ingredientsNavWrapperRef.current &&
+      bunRef.current &&
+      sauceRef.current &&
+      mainRef.current
+    ) {
+      const bunDistance = Math.abs(
+        ingredientsNavWrapperRef.current.getBoundingClientRect().top -
+          bunRef.current.getBoundingClientRect().top
+      );
+
+      const sauceDistance = Math.abs(
+        ingredientsNavWrapperRef.current.getBoundingClientRect().top -
+          sauceRef.current.getBoundingClientRect().top
+      );
+
+      const mainDistance = Math.abs(
+        ingredientsNavWrapperRef.current.getBoundingClientRect().top -
+          mainRef.current.getBoundingClientRect().top
+      );
+
+      const minDistance = Math.min(bunDistance, sauceDistance, mainDistance);
+
+      const currentHeader =
+        minDistance === bunDistance
+          ? "bun"
+          : minDistance === sauceDistance
+          ? "sauce"
+          : "main";
+
+      setSelectedIngredientNav(currentHeader);
+    }
   };
 
   return (
@@ -111,7 +146,11 @@ const BurgerIngredients = () => {
         })}
       </div>
 
-      <div className={styles.burgerIngredientsWrapper}>
+      <div
+        ref={ingredientsNavWrapperRef}
+        className={styles.burgerIngredientsWrapper}
+        onScroll={handleOnScroll}
+      >
         {ingredientTypes.map(({ name, ref, items }) => (
           <div key={name}>
             <h3 className="text text_type_main-medium mt-10" ref={ref}>
@@ -130,8 +169,11 @@ const BurgerIngredients = () => {
         ))}
       </div>
 
-      {viewModal && selectedIngredient && (
-        <Modal headerText="Детали ингредиента" onClose={handleCloseModal}>
+      {showIngredientModal && selectedIngredient && (
+        <Modal
+          headerText="Детали ингредиента"
+          onClose={() => dispatch(hideIngredientModal())}
+        >
           <IngredientDetails selectedIngredient={selectedIngredient} />
         </Modal>
       )}

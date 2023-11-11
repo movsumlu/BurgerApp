@@ -1,45 +1,36 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import Header from "../header";
-import Main from "../main";
+import Header from "components/header";
+import Main from "components/main";
 
-import { apiURL } from "../../consts";
-import { checkResponse } from "../../utils/burger-API";
+import { ERROR_TEXT } from "consts";
 
-import { BurgerConstructorContext } from "../../services/burgerConstructorContext";
+import { ingredientsSelector } from "store/ingredients/selectors";
+import { fetchIngredients } from "store/ingredients/asyncThunks";
+import { AppDispatch } from "store";
 
 import styles from "./style.module.scss";
 
 const App = () => {
-  const [ingredients, setIngredients] = useState([]);
-  const [hasErrorsWithFetching, setHasErrorsWithFetching] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const errorText =
-    "При загрузке данных произошла ошибка. Повторите попытку попозже.";
+  const { errors } = useSelector(ingredientsSelector);
 
   useEffect(() => {
-    fetch(`${apiURL}/api/ingredients`)
-      .then(checkResponse)
-      .then(({ data }) => setIngredients(data))
-      .catch((error) => {
-        setHasErrorsWithFetching(true);
-        console.error(error);
-      });
-  }, []);
+    dispatch(fetchIngredients());
+  }, [dispatch]);
 
   return (
     <div className={styles.app}>
-      {hasErrorsWithFetching ? (
-        <p className={`${styles.errorText} text text_type_main-large`}>
-          {errorText}
+      {errors ? (
+        <p className={`${styles.ERROR_TEXT} text text_type_main-large`}>
+          {ERROR_TEXT}
         </p>
       ) : (
         <>
           <Header />
-
-          <BurgerConstructorContext.Provider value={{ ingredients }}>
-            <Main />
-          </BurgerConstructorContext.Provider>
+          <Main />
         </>
       )}
     </div>

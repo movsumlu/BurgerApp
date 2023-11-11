@@ -1,5 +1,5 @@
-import { nutritions } from "../../consts";
-import { IBurgerIngredientsItem } from "../../types/interfaces";
+import { NUTRITIONS } from "consts";
+import { IBurgerIngredientsItem } from "types/interfaces";
 
 import styles from "./style.module.scss";
 
@@ -22,7 +22,7 @@ const IngredientDetails = (props: {
         </p>
       </div>
       <div className={styles.nutritionBlock}>
-        {nutritions.map(({ description, name }) => {
+        {NUTRITIONS.map(({ description, name }) => {
           return (
             <div className={styles.nutritionItem} key={name}>
               <p className="text text_type_main-default">{description}</p>
