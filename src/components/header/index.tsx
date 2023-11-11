@@ -14,13 +14,11 @@ const AppHeader = () => {
         <a href="#" className={styles.navItem}>
           <BurgerIcon type="primary" />
           <span
-            className={`${styles.headerItemText} text text_type_main-default mr-10 ml-2`}
+            className={`${styles.headerItemText} ${styles.active} text text_type_main-default mr-10 ml-2`}
           >
             Конструктор
           </span>
-        </a>
 
-        <a href="#" className={styles.navItem}>
           <ListIcon type="secondary" />
           <span
             className={`${styles.headerItemText} text text_type_main-default ml-2 text_color_inactive`}
