@@ -4,7 +4,8 @@ import { swapArrayElements } from "utils/helper";
 import { checkoutOrder } from "./asyncThunks";
 
 interface IOrderState {
-  orderList: IBurgerIngredientsItem[];
+  buns: IBurgerIngredientsItem | null;
+  ingredients: IBurgerIngredientsItem[];
   order: {
     number: number;
   } | null;
@@ -14,7 +15,8 @@ interface IOrderState {
 }
 
 const initialState: IOrderState = {
-  orderList: [],
+  buns: null,
+  ingredients: [],
   order: null,
   showOrderModal: false,
   loading: false,
@@ -25,63 +27,46 @@ const orderSlice = createSlice({
   name: "orderList",
   initialState,
   reducers: {
-    addIngredient(state, action) {
-      const hasBun = state.orderList.some((item) => item.type === "bun");
-
-      const updatedOrderList = hasBun
-        ? [
-            ...state.orderList.slice(0, state.orderList.length - 1),
-            ...action.payload,
-            state.orderList[state.orderList.length - 1],
-          ]
-        : [...state.orderList, ...action.payload];
-
-      return {
-        ...state,
-        orderList: updatedOrderList,
-      };
-    },
     addBuns(state, action) {
-      const orderListWithoutBuns = [...state.orderList].filter(
-        ({ type }) => type !== "bun"
-      );
-
       return {
         ...state,
-        orderList: [
-          ...action.payload,
-          ...orderListWithoutBuns,
-          ...action.payload,
-        ],
+        buns: action.payload[0],
       };
     },
-    replaceIngredient(state, action) {
+    addIngredient(state, action) {
+      return {
+        ...state,
+        ingredients: [...state.ingredients, ...action.payload],
+      };
+    },
+    replaceIngredients(state, action) {
       const { dragIndex, hoverIndex } = action.payload;
 
-      const replacedOrderList = swapArrayElements(
-        [...state.orderList],
+      const replacedIngredients = swapArrayElements(
+        [...state.ingredients],
         dragIndex,
         hoverIndex
       );
 
       return {
         ...state,
-        orderList: replacedOrderList,
+        ingredients: [...replacedIngredients],
       };
     },
     deleteIngredient(state, action) {
-      const filteredOrderList = [...state.orderList];
-      filteredOrderList.splice(action.payload, 1);
+      const deletedIngredient = [...state.ingredients];
+      deletedIngredient.splice(action.payload, 1);
 
       return {
         ...state,
-        orderList: filteredOrderList,
+        ingredients: [...deletedIngredient],
       };
     },
-    clearOrderList(state) {
+    clearOrder(state) {
       return {
         ...state,
-        orderList: [],
+        buns: null,
+        ingredients: [],
       };
     },
     displayOrderModal(state) {
@@ -126,9 +111,9 @@ const orderSlice = createSlice({
 export const {
   addIngredient,
   addBuns,
-  replaceIngredient,
+  replaceIngredients,
   deleteIngredient,
-  clearOrderList,
+  clearOrder,
   displayOrderModal,
   hideOrderModal,
 } = orderSlice.actions;

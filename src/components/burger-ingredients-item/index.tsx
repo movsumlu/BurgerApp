@@ -20,7 +20,7 @@ const BurgerIngredientsItem = (props: {
 }) => {
   const items = props.items;
 
-  const { orderList } = useSelector(orderSelector);
+  const { buns, ingredients } = useSelector(orderSelector);
 
   const selectIngredient = (item: IBurgerIngredientsItem) => {
     props.onSelectIngredient(item);
@@ -37,13 +37,15 @@ const BurgerIngredientsItem = (props: {
   const countMap = useMemo(() => {
     const map = new Map();
 
-    orderList.forEach(({ _id }) => {
-      const count = map.get(_id) || 0;
-      map.set(_id, count + 1);
-    });
+    if (buns) {
+      [buns, ...ingredients].forEach(({ _id }) => {
+        const count = map.get(_id) || 0;
+        map.set(_id, count + 1);
+      });
+    }
 
     return map;
-  }, [orderList]);
+  }, [buns, ingredients]);
 
   const draggingOpacity = isDragging && styles.draggingOpacity;
 

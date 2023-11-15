@@ -1,5 +1,5 @@
 import { useCallback, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { useDrag, useDrop } from "react-dnd";
 
@@ -8,8 +8,7 @@ import {
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { orderSelector } from "store/order/selectors";
-import { replaceIngredient } from "store/order/slice";
+import { replaceIngredients } from "store/order/slice";
 
 import { IBurgerIngredientsItem } from "types/interfaces";
 
@@ -26,8 +25,6 @@ const BurgerConstructorItem = (props: IBurgerConstructorItemProps) => {
   const { index, item, isLocked, deleteIngredient } = props;
 
   const dispatch = useDispatch();
-
-  const { orderList } = useSelector(orderSelector);
 
   const ref = useRef<HTMLElement | null>(null);
 
@@ -60,12 +57,7 @@ const BurgerConstructorItem = (props: IBurgerConstructorItemProps) => {
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return;
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return;
 
-      if (
-        ingredient.item.type !== "bun" &&
-        orderList[hoverIndex].type !== "bun"
-      ) {
-        dispatch(replaceIngredient({ dragIndex, hoverIndex }));
-      }
+      dispatch(replaceIngredients({ dragIndex, hoverIndex }));
 
       ingredient.index = hoverIndex;
     },
@@ -96,7 +88,7 @@ const BurgerConstructorItem = (props: IBurgerConstructorItemProps) => {
       ref={setRef}
       className={`${styles.burgerConstructorItem} ${draggingOpacity}`}
     >
-      {!isLocked ? <DragIcon type={"primary"} /> : <div className={"pl-6"} />}
+      <DragIcon type={"primary"} />
 
       <ConstructorElement
         isLocked={isLocked}

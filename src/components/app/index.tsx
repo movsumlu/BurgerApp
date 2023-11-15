@@ -6,9 +6,10 @@ import Main from "components/main";
 
 import { ERROR_TEXT } from "consts";
 
+import { AppDispatch } from "store";
+
 import { ingredientsSelector } from "store/ingredients/selectors";
 import { fetchIngredients } from "store/ingredients/asyncThunks";
-import { AppDispatch } from "store";
 
 import styles from "./style.module.scss";
 
@@ -24,7 +25,7 @@ const App = () => {
   return (
     <div className={styles.app}>
       {errors ? (
-        <p className={`${styles.ERROR_TEXT} text text_type_main-large`}>
+        <p className={`${styles.errorText} text text_type_main-large`}>
           {ERROR_TEXT}
         </p>
       ) : (
