@@ -21,12 +21,13 @@ import { AppDispatch } from "store";
 import {
   addBuns,
   addIngredient,
-  checkoutOrder,
   deleteIngredient,
   clearOrder,
   displayOrderModal,
   hideOrderModal,
 } from "store/order/slice";
+
+import { checkoutOrder } from "store/order/asyncThunks";
 
 import styles from "./style.module.scss";
 
@@ -52,6 +53,10 @@ const BurgerConstructor = () => {
     return [buns, ...ingredients, buns].reduce((acc, item) => {
       return item !== null ? acc + item.price : acc;
     }, 0);
+  }, [buns, ingredients]);
+
+  const hasBunsIngredients = useMemo(() => {
+    return (buns && !!ingredients.length) || (!buns && !ingredients.length);
   }, [buns, ingredients]);
 
   const IDOfIngredients = useMemo(
@@ -146,7 +151,7 @@ const BurgerConstructor = () => {
             type="primary"
             size="large"
             onClick={checkoutOrderHandler}
-            disabled={buns ? false : true}
+            disabled={!hasBunsIngredients}
           >
             Оформить заказ
           </Button>

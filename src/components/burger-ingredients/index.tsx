@@ -174,7 +174,7 @@ const BurgerIngredients = () => {
           headerText="Детали ингредиента"
           onClose={() => dispatch(hideIngredientModal())}
         >
-          <IngredientDetails selectedIngredient={selectedIngredient} />
+          <IngredientDetails />
         </Modal>
       )}
     </>

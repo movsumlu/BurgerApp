@@ -118,5 +118,4 @@ export const {
   hideOrderModal,
 } = orderSlice.actions;
 
-export { checkoutOrder };
 export default orderSlice.reducer;
