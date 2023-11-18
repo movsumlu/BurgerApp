@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import {
@@ -7,24 +6,19 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import { useForm } from "hooks/useForm";
+
 import { RESET_PASSWORD_URL, checkResponse } from "services/API";
 
 import styles from "./style.module.scss";
 
 const ResetPassword = () => {
-  const [formData, setFormData] = useState({
+  const { formData, handleChange } = useForm({
     password: "",
     code: "",
   });
 
   const navigate = useNavigate();
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-  };
 
   const savePassword = async () => {
     try {

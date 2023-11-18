@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -13,24 +12,18 @@ import { setCookie } from "services/cookie";
 import { setUser } from "store/profile/slice";
 
 import styles from "./style.module.scss";
+import { useForm } from "hooks/useForm";
 
 const Register = () => {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
+  const { formData, handleChange } = useForm({
     name: "",
     email: "",
     password: "",
   });
-
-  const fieldChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-  };
 
   const handleSubmit = async () => {
     try {
@@ -44,19 +37,17 @@ const Register = () => {
 
       const registerUserResponse = await checkResponse(response);
 
-      if (registerUserResponse.success) {
+      const { success, user, accessToken, refreshToken } = registerUserResponse;
+
+      if (success) {
         dispatch(
           setUser({
-            name: registerUserResponse.user.name,
-            email: registerUserResponse.user.email,
+            name: user.name,
+            email: user.email,
           })
         );
 
-        const accessToken =
-          registerUserResponse.accessToken.split("Bearer ")[1];
-        const refreshToken = registerUserResponse.refreshToken;
-
-        setCookie("token", accessToken);
+        setCookie("token", accessToken.split("Bearer ")[1]);
         localStorage.setItem("refreshToken", refreshToken);
 
         navigate("/", { replace: true });
@@ -73,19 +64,19 @@ const Register = () => {
         <Input
           name={"name"}
           value={formData.name}
-          onChange={fieldChange}
+          onChange={handleChange}
           type={"text"}
           placeholder={"Имя"}
         />
         <Input
           name={"email"}
           value={formData.email}
-          onChange={fieldChange}
+          onChange={handleChange}
           type={"email"}
           placeholder={"E-mail"}
         />
         <PasswordInput
-          onChange={fieldChange}
+          onChange={handleChange}
           value={formData.password}
           name={"password"}
         />

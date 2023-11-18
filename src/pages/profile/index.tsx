@@ -1,17 +1,19 @@
-import { useState } from "react";
+import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { deleteAllCookies } from "services/cookie";
-import { useDispatch } from "react-redux";
 import { clearUser } from "store/profile/slice";
+
+import { useForm } from "hooks/useForm";
 
 import styles from "./style.module.scss";
 
 const Profile = () => {
   const dispatch = useDispatch();
-  const [state, setState] = useState({
+
+  const { formData, handleChange } = useForm({
     name: "",
     email: "",
     password: "",
@@ -21,13 +23,6 @@ const Profile = () => {
     deleteAllCookies();
     dispatch(clearUser());
     localStorage.removeItem("resetPasswordStepPassed");
-  };
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.value,
-    });
   };
 
   return (
@@ -66,9 +61,9 @@ const Profile = () => {
         <Input
           type={"text"}
           placeholder={"Имя"}
-          onChange={handleInputChange}
+          onChange={handleChange}
           icon={"EditIcon"}
-          value={state.name}
+          value={formData.name}
           name={"name"}
           size={"default"}
           extraClass="mb-5"
@@ -77,20 +72,20 @@ const Profile = () => {
         <Input
           type={"text"}
           placeholder={"Email"}
-          onChange={handleInputChange}
+          onChange={handleChange}
           icon={"EditIcon"}
           name={"email"}
-          value={state.email}
+          value={formData.email}
           extraClass="mb-5"
         />
 
         <Input
           type={"password"}
           placeholder={"Пароль"}
-          onChange={handleInputChange}
+          onChange={handleChange}
           icon={"EditIcon"}
           name={"password"}
-          value={state.password ?? ""}
+          value={formData.password}
           size={"default"}
           extraClass="mb-5"
         />

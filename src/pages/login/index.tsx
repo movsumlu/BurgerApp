@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -8,29 +7,23 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import styles from "./style.module.scss";
-import { LOGIN_URL, checkResponse } from "services/API";
 import { setCookie } from "services/cookie";
 import { setUser } from "store/profile/slice";
+import { useForm } from "hooks/useForm";
+import { LOGIN_URL, checkResponse } from "services/API";
+
+import styles from "./style.module.scss";
 
 const Login = () => {
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
+  const { formData, handleChange } = useForm({
     email: "",
     password: "",
   });
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleSubmit = async () => {
+  const loginUser = async () => {
     try {
       const response = await fetch(`${LOGIN_URL}`, {
         method: "POST",
@@ -42,18 +35,17 @@ const Login = () => {
 
       const loginUserResponse = await checkResponse(response);
 
-      if (loginUserResponse.success) {
+      const { success, user, accessToken, refreshToken } = loginUserResponse;
+
+      if (success) {
         dispatch(
           setUser({
-            name: loginUserResponse.user.name,
-            email: loginUserResponse.user.email,
+            name: user.name,
+            email: user.email,
           })
         );
 
-        const accessToken = loginUserResponse.accessToken.split("Bearer ")[1];
-        const refreshToken = loginUserResponse.refreshToken;
-
-        setCookie("token", accessToken);
+        setCookie("token", accessToken.split("Bearer ")[1]);
         localStorage.setItem("refreshToken", refreshToken);
 
         navigate("/", { replace: true });
@@ -87,7 +79,7 @@ const Login = () => {
           type="primary"
           size="medium"
           extraClass="text_type_main-default"
-          onClick={handleSubmit}
+          onClick={loginUser}
         >
           Войти
         </Button>

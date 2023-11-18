@@ -3,11 +3,7 @@ import { Navigate } from "react-router-dom";
 
 import { profileSelector } from "store/profile/selectors";
 
-export const ProtectedRouteElement = ({
-  element,
-}: {
-  element: JSX.Element;
-}) => {
+const ProtectedRouteElement = ({ element }: { element: JSX.Element }) => {
   const { authorizated } = useSelector(profileSelector);
 
   const elementName = element.type.name;
@@ -41,3 +37,5 @@ export const ProtectedRouteElement = ({
 
   return element;
 };
+
+export default ProtectedRouteElement;

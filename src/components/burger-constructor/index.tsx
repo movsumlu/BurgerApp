@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useDrop } from "react-dnd";
 
 import {
@@ -13,6 +14,7 @@ import OrderDetails from "components/order-details";
 import Modal from "components/modal";
 
 import { orderSelector } from "store/order/selectors";
+import { profileSelector } from "store/profile/selectors";
 
 import { IBurgerIngredientsItem } from "types/interfaces";
 
@@ -33,6 +35,10 @@ import styles from "./style.module.scss";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch<AppDispatch>();
+
+  const navigate = useNavigate();
+
+  const { authorizated } = useSelector(profileSelector);
 
   const { buns, ingredients, order, showOrderModal } =
     useSelector(orderSelector);
@@ -65,9 +71,13 @@ const BurgerConstructor = () => {
   );
 
   const checkoutOrderHandler = async () => {
-    await dispatch(checkoutOrder(IDOfIngredients));
-    dispatch(clearOrder());
-    dispatch(displayOrderModal());
+    if (authorizated) {
+      await dispatch(checkoutOrder(IDOfIngredients));
+      dispatch(clearOrder());
+      dispatch(displayOrderModal());
+    } else {
+      navigate("/login", { replace: true });
+    }
   };
 
   const closeOrderModalHandler = () => {
@@ -93,7 +103,7 @@ const BurgerConstructor = () => {
                 <ConstructorElement
                   type="top"
                   isLocked={true}
-                  text={buns.name}
+                  text={buns.name + " (верх)"}
                   price={buns.price}
                   thumbnail={buns.image}
                 />
@@ -125,7 +135,7 @@ const BurgerConstructor = () => {
                 <ConstructorElement
                   type="bottom"
                   isLocked={true}
-                  text={buns.name}
+                  text={buns.name + " (низ)"}
                   price={buns.price}
                   thumbnail={buns.image}
                 />
