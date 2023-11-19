@@ -1,23 +1,24 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 import Header from "components/header";
 import IngredientDetails from "components/ingredient-details";
 import ProtectedRouteElement from "components/protected-route-element";
+import Modal from "components/modal";
 
 import Main from "pages/main";
-import Profile from "pages/profile";
 import Login from "pages/login";
 import Register from "pages/register";
-
 import ForgotPassword from "pages/forgot-password";
 import ResetPassword from "pages/reset-password";
+import Profile from "pages/profile";
 
 import { ERROR_TEXT } from "consts";
 
 import { AppDispatch } from "store";
 
+import { hideIngredientModal } from "store/ingredients/slice";
 import { ingredientsSelector } from "store/ingredients/selectors";
 import { fetchIngredients } from "store/ingredients/asyncThunks";
 
@@ -26,11 +27,21 @@ import styles from "./style.module.scss";
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();
 
+  const navigate = useNavigate();
+
+  const location = useLocation();
+  const state = location.state;
+
   const { errors } = useSelector(ingredientsSelector);
 
   useEffect(() => {
     dispatch(fetchIngredients());
-  }, [dispatch]);
+  }, [dispatch, navigate]);
+
+  const onCloseModalHandler = () => {
+    dispatch(hideIngredientModal());
+    navigate("/", { replace: true });
+  };
 
   return (
     <div className={styles.app}>
@@ -38,7 +49,7 @@ const App = () => {
         <>
           <Header />
 
-          <Routes>
+          <Routes location={state?.background || location}>
             <Route path="" element={<Main />} />
 
             <Route
@@ -68,6 +79,22 @@ const App = () => {
 
             <Route path="/ingredients/:id" element={<IngredientDetails />} />
           </Routes>
+
+          {state?.background && (
+            <Routes>
+              <Route
+                path="/ingredients/:id"
+                element={
+                  <Modal
+                    headerText="Детали ингредиента"
+                    onClose={onCloseModalHandler}
+                  >
+                    <IngredientDetails />
+                  </Modal>
+                }
+              />
+            </Routes>
+          )}
         </>
       ) : (
         <p className={`${styles.errorText} text text_type_main-large`}>

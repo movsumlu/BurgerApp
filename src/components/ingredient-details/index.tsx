@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 
 import { NUTRITIONS } from "consts";
 
@@ -10,6 +10,9 @@ import { selectIngredient } from "store/ingredients/slice";
 
 const IngredientDetails = () => {
   const dispatch = useDispatch();
+
+  const location = useLocation();
+  const state = location.state;
 
   const { ingredients, selectedIngredient } = useSelector(ingredientsSelector);
 
@@ -27,12 +30,11 @@ const IngredientDetails = () => {
 
   return (
     <>
-      {id && (
+      {!state && (
         <div className={`${styles.title} text text_type_main-large mt-25`}>
           Детали ингредиента
         </div>
       )}
-
       <div className={styles.modalWrapper}>
         <img
           className={styles.modalImage}
