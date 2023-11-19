@@ -1,3 +1,6 @@
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
+
 import {
   BurgerIcon,
   ListIcon,
@@ -5,43 +8,50 @@ import {
   Logo,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import { profileSelector } from "store/profile/selectors";
+
 import styles from "./style.module.scss";
 
 const AppHeader = () => {
+  const { authorizated } = useSelector(profileSelector);
+
   return (
     <header className={styles.header}>
       <nav className={styles.navItem}>
-        <a href="/">
+        <NavLink to="/">
           <BurgerIcon type="primary" />
           <span
             className={`${styles.headerItemText} ${styles.active} text text_type_main-default mr-10 ml-2`}
           >
             Конструктор
           </span>
-        </a>
+        </NavLink>
 
-        <a href="/">
+        <NavLink to="/">
           <ListIcon type="secondary" />
           <span
             className={`${styles.headerItemText} text text_type_main-default ml-2 text_color_inactive`}
           >
             Лента заказов
           </span>
-        </a>
+        </NavLink>
       </nav>
 
-      <a href="/" className={styles.headerLogo}>
+      <NavLink to="/" className={styles.headerLogo}>
         <Logo />
-      </a>
+      </NavLink>
 
-      <a href="/profile" className={styles.navItem}>
+      <NavLink
+        to={authorizated ? "/profile" : "/login"}
+        className={styles.navItem}
+      >
         <ProfileIcon type="secondary" />
         <span
           className={`${styles.headerItemText} text text_type_main-default ml-2 text_color_inactive`}
         >
           Личный кабинет
         </span>
-      </a>
+      </NavLink>
     </header>
   );
 };
