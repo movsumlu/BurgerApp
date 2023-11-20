@@ -8,13 +8,15 @@ const ProtectedRouteElement = ({ element }: { element: JSX.Element }) => {
 
   const { authorizated } = useSelector(profileSelector);
 
+  const from = location.state?.from || "/";
+
   const elementName = element.type.name;
 
   if (
     (!authorizated && elementName === "Profile") ||
     (authorizated && (elementName === "Login" || elementName === "Register"))
   ) {
-    return <Navigate to={location?.state?.from || "/"} replace />;
+    return <Navigate to={from} />;
   }
 
   if (elementName === "ForgotPassword") {
@@ -33,7 +35,7 @@ const ProtectedRouteElement = ({ element }: { element: JSX.Element }) => {
     );
 
     if (!resetPasswordStepPassed) {
-      return <Navigate to="/forgot-password" replace />;
+      return <Navigate to="/forgot-password" />;
     }
   }
 
