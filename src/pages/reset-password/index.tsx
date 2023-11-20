@@ -1,3 +1,4 @@
+import { SyntheticEvent, useCallback, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import {
@@ -7,6 +8,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { useForm } from "hooks/useForm";
+import { useOnEnter } from "hooks/useOnEnter";
 
 import { RESET_PASSWORD_URL, checkResponse } from "services/API";
 
@@ -18,34 +20,45 @@ const ResetPassword = () => {
     code: "",
   });
 
+  const hasEmptyField = useMemo(() => {
+    return !formData.password || !formData.code;
+  }, [formData]);
+
   const navigate = useNavigate();
 
-  const savePassword = async () => {
-    try {
-      const response = await fetch(`${RESET_PASSWORD_URL}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          password: formData.password,
-          token: formData.code,
-        }),
-      });
+  const savePassword = useCallback(
+    async (event: SyntheticEvent | KeyboardEvent) => {
+      event.preventDefault();
 
-      const { success } = await checkResponse(response);
+      try {
+        const response = await fetch(`${RESET_PASSWORD_URL}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            password: formData.password,
+            token: formData.code,
+          }),
+        });
 
-      if (success) {
-        navigate("/", { replace: true });
+        const { success } = await checkResponse(response);
+
+        if (success) {
+          navigate("/", { replace: true });
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    },
+    [formData, navigate]
+  );
+
+  useOnEnter(savePassword, hasEmptyField);
 
   return (
     <div className={styles.resetPasswordBlock}>
-      <div className={styles.resetPasswordForm}>
+      <form className={styles.resetPasswordForm} onSubmit={savePassword}>
         <h3 className="text text_type_main-medium">Восстановление пароля</h3>
 
         <PasswordInput
@@ -66,15 +79,15 @@ const ResetPassword = () => {
         />
 
         <Button
-          htmlType="button"
+          htmlType="submit"
           type="primary"
           size="medium"
-          extraClass="text_type_main-default mt-5"
-          onClick={savePassword}
+          extraClass="mt-5"
+          disabled={hasEmptyField}
         >
-          Сохранить
+          <p className="text text_type_main-default">Сохранить</p>
         </Button>
-      </div>
+      </form>
 
       <div className={styles.resetPasswordFooter}>
         <span className="text text_type_main-default text_color_inactive">

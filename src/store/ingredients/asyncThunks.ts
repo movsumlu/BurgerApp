@@ -6,6 +6,7 @@ export const fetchIngredients = createAsyncThunk(
   async () => {
     const response = await fetch(`${API_URL}/api/ingredients`);
     const { data } = await checkResponse(response);
+
     return data;
   }
 );

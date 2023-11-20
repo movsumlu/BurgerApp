@@ -1,9 +1,11 @@
 import { useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 import { profileSelector } from "store/profile/selectors";
 
 const ProtectedRouteElement = ({ element }: { element: JSX.Element }) => {
+  const location = useLocation();
+
   const { authorizated } = useSelector(profileSelector);
 
   const elementName = element.type.name;
@@ -12,7 +14,7 @@ const ProtectedRouteElement = ({ element }: { element: JSX.Element }) => {
     (!authorizated && elementName === "Profile") ||
     (authorizated && (elementName === "Login" || elementName === "Register"))
   ) {
-    return <Navigate to="/" replace />;
+    return <Navigate to={location?.state?.from || "/"} replace />;
   }
 
   if (elementName === "ForgotPassword") {

@@ -57,7 +57,7 @@ const Profile = () => {
         </div>
       </nav>
 
-      <div>
+      <form>
         <Input
           type={"text"}
           placeholder={"Имя"}
@@ -89,7 +89,7 @@ const Profile = () => {
           size={"default"}
           extraClass="mb-5"
         />
-      </div>
+      </form>
     </div>
   );
 };

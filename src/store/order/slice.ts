@@ -30,13 +30,13 @@ const orderSlice = createSlice({
     addBuns(state, action) {
       return {
         ...state,
-        buns: action.payload[0],
+        buns: action.payload,
       };
     },
     addIngredient(state, action) {
       return {
         ...state,
-        ingredients: [...state.ingredients, ...action.payload],
+        ingredients: [...state.ingredients, action.payload],
       };
     },
     replaceIngredients(state, action) {

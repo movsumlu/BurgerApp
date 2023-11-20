@@ -39,7 +39,7 @@ const IngredientDetails = () => {
         <img
           className={styles.modalImage}
           src={selectedIngredient?.image_large}
-          alt="modalImage"
+          alt={`Картинка ингредиента в модальном окне, ${selectedIngredient?.image_large}`}
         />
 
         <p className={`${styles.modalText} text text_type_main-medium`}>

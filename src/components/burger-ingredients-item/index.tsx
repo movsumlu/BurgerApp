@@ -63,7 +63,7 @@ const BurgerIngredientsItem = (props: {
               <Counter count={countMap.get(item._id)} size="default" />
             )}
 
-            <img src={item.image} alt="ingredientImage" />
+            <img src={item.image} alt={`Картинка ингредиента, ${item.image}`} />
 
             <div className={styles.ingredientPrice}>
               <span className="text text_type_digits-default mr-2">

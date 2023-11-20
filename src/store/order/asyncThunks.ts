@@ -13,6 +13,7 @@ export const checkoutOrder = createAsyncThunk(
     });
 
     const { order } = await checkResponse(response);
+
     return order;
   }
 );

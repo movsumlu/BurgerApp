@@ -42,7 +42,10 @@ const AppHeader = () => {
       </NavLink>
 
       <NavLink
-        to={authorizated ? "/profile" : "/login"}
+        to={{
+          pathname: authorizated ? "/profile" : "/login",
+        }}
+        state={{ from: "/profile" }}
         className={styles.navItem}
       >
         <ProfileIcon type="secondary" />

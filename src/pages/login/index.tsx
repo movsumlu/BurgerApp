@@ -1,63 +1,75 @@
+import { SyntheticEvent, useCallback, useMemo } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import {
   Input,
-  Button,
   PasswordInput,
+  Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+
+import { LOGIN_URL, checkResponse } from "services/API";
 
 import { setCookie } from "services/cookie";
 import { setUser } from "store/profile/slice";
+
 import { useForm } from "hooks/useForm";
-import { LOGIN_URL, checkResponse } from "services/API";
+import { useOnEnter } from "hooks/useOnEnter";
 
 import styles from "./style.module.scss";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const { formData, handleChange } = useForm({
     email: "",
     password: "",
   });
 
-  const loginUser = async () => {
-    try {
-      const response = await fetch(`${LOGIN_URL}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+  const hasEmptyField = useMemo(() => {
+    return !formData.email || !formData.password;
+  }, [formData]);
 
-      const loginUserResponse = await checkResponse(response);
+  const loginUser = useCallback(
+    async (event: SyntheticEvent | KeyboardEvent) => {
+      event.preventDefault();
 
-      const { success, user, accessToken, refreshToken } = loginUserResponse;
+      try {
+        const response = await fetch(`${LOGIN_URL}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
 
-      if (success) {
-        dispatch(
-          setUser({
-            name: user.name,
-            email: user.email,
-          })
-        );
+        const loginUserResponse = await checkResponse(response);
 
-        setCookie("token", accessToken.split("Bearer ")[1]);
-        localStorage.setItem("refreshToken", refreshToken);
+        const { success, user, accessToken, refreshToken } = loginUserResponse;
 
-        navigate("/", { replace: true });
+        if (success) {
+          dispatch(
+            setUser({
+              name: user.name,
+              email: user.email,
+            })
+          );
+
+          setCookie("token", accessToken.split("Bearer ")[1]);
+          localStorage.setItem("refreshToken", refreshToken);
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    },
+    [formData, dispatch]
+  );
+
+  useOnEnter(loginUser, hasEmptyField);
 
   return (
     <div className={styles.loginBlock}>
-      <div className={styles.loginForm}>
+      <form className={styles.loginForm} onSubmit={loginUser}>
         <h3 className="text text_type_main-medium">Вход</h3>
         <Input
           name={"email"}
@@ -75,15 +87,14 @@ const Login = () => {
         />
 
         <Button
-          htmlType="button"
+          htmlType="submit"
           type="primary"
           size="medium"
-          extraClass="text_type_main-default"
-          onClick={loginUser}
+          disabled={hasEmptyField}
         >
-          Войти
+          <p className="text text_type_main-default">Войти</p>
         </Button>
-      </div>
+      </form>
 
       <div className={styles.loginFooter}>
         <span className="text text_type_main-default text_color_inactive">

@@ -8,7 +8,10 @@ export const UPDATE_TOKEN_URL = `${API_URL}/api/auth/token`;
 export const FORGOT_PASSWORD_URL = `${API_URL}/api/password-reset`;
 export const RESET_PASSWORD_URL = `${API_URL}/api/password-reset/reset`;
 
-export const checkResponse = (response: Response) =>
-  response.ok
-    ? response.json()
-    : response.json().then((err) => Promise.reject(err));
+export const checkResponse = (response: Response) => {
+  if (response.ok) {
+    return response.json();
+  }
+
+  return Promise.reject(response);
+};

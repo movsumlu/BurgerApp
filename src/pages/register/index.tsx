@@ -1,5 +1,6 @@
+import { SyntheticEvent, useCallback, useMemo } from "react";
 import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import {
   Input,
@@ -11,13 +12,13 @@ import { REGISTER_URL, checkResponse } from "services/API";
 import { setCookie } from "services/cookie";
 import { setUser } from "store/profile/slice";
 
-import styles from "./style.module.scss";
 import { useForm } from "hooks/useForm";
+import { useOnEnter } from "hooks/useOnEnter";
+
+import styles from "./style.module.scss";
 
 const Register = () => {
   const dispatch = useDispatch();
-
-  const navigate = useNavigate();
 
   const { formData, handleChange } = useForm({
     name: "",
@@ -25,41 +26,51 @@ const Register = () => {
     password: "",
   });
 
-  const handleSubmit = async () => {
-    try {
-      const response = await fetch(`${REGISTER_URL}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+  const hasEmptyField = useMemo(() => {
+    return !formData.name || !formData.email || !formData.password;
+  }, [formData]);
 
-      const registerUserResponse = await checkResponse(response);
+  const registerUser = useCallback(
+    async (event: SyntheticEvent | KeyboardEvent) => {
+      event.preventDefault();
 
-      const { success, user, accessToken, refreshToken } = registerUserResponse;
+      try {
+        const response = await fetch(`${REGISTER_URL}`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
 
-      if (success) {
-        dispatch(
-          setUser({
-            name: user.name,
-            email: user.email,
-          })
-        );
+        const registerUserResponse = await checkResponse(response);
 
-        setCookie("token", accessToken.split("Bearer ")[1]);
-        localStorage.setItem("refreshToken", refreshToken);
+        const { success, user, accessToken, refreshToken } =
+          registerUserResponse;
 
-        navigate("/", { replace: true });
+        if (success) {
+          dispatch(
+            setUser({
+              name: user.name,
+              email: user.email,
+            })
+          );
+
+          setCookie("token", accessToken.split("Bearer ")[1]);
+          localStorage.setItem("refreshToken", refreshToken);
+        }
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    },
+    [formData, dispatch]
+  );
+
+  useOnEnter(registerUser, hasEmptyField);
 
   return (
     <>
-      <div className={styles.registerForm}>
+      <form className={styles.registerForm} onSubmit={registerUser}>
         <h3 className="text text_type_main-medium">Регистрация</h3>
         <Input
           name={"name"}
@@ -82,15 +93,14 @@ const Register = () => {
         />
 
         <Button
-          htmlType="button"
+          htmlType="submit"
           type="primary"
           size="medium"
-          extraClass="text_type_main-default"
-          onClick={handleSubmit}
+          disabled={hasEmptyField}
         >
-          Зарегистрироваться
+          <p className="text text_type_main-default">Зарегистрироваться</p>
         </Button>
-      </div>
+      </form>
 
       <div className={styles.registerFooter}>
         <span className="text text_type_main-default text_color_inactive">

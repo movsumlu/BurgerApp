@@ -12,4 +12,5 @@ export interface IBurgerIngredientsItem {
   image_large: string;
   __v: number;
   position?: "top" | "bottom";
+  uuid: string;
 }

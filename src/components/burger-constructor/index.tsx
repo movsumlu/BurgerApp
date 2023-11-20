@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useDrop } from "react-dnd";
 
+import { v4 as uuid } from "uuid";
+
 import {
   CurrencyIcon,
   Button,
@@ -46,9 +48,11 @@ const BurgerConstructor = () => {
   const [{ isDrag }, drop] = useDrop({
     accept: "ingredient",
     drop(ingredient: IBurgerIngredientsItem[]) {
+      const updatedIngredient = { ...ingredient[0], uuid: uuid() };
+
       ingredient[0].type === "bun"
-        ? dispatch(addBuns(ingredient))
-        : dispatch(addIngredient(ingredient));
+        ? dispatch(addBuns(updatedIngredient))
+        : dispatch(addIngredient(updatedIngredient));
     },
     collect: (monitor) => ({
       isDrag: monitor.canDrop(),
@@ -76,7 +80,7 @@ const BurgerConstructor = () => {
       dispatch(clearOrder());
       dispatch(displayOrderModal());
     } else {
-      navigate("/login", { replace: true });
+      navigate("/login", { state: { from: "/" }, replace: true });
     }
   };
 
@@ -113,10 +117,10 @@ const BurgerConstructor = () => {
             {!!ingredients.length && (
               <div className={styles.ingredientsWrapper}>
                 {ingredients.map(
-                  (ingredient: IBurgerIngredientsItem, index: number) => {
+                  (ingredient: IBurgerIngredientsItem, index) => {
                     return (
                       <BurgerConstructorItem
-                        key={index}
+                        key={ingredient.uuid}
                         index={index}
                         item={ingredient}
                         isLocked={false}

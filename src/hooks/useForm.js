@@ -4,9 +4,11 @@ export const useForm = (initialState) => {
   const [formData, setFormData] = useState(initialState);
 
   const handleChange = (event) => {
+    const { name, value } = event.target;
+
     setFormData({
       ...formData,
-      [event.target.name]: event.target.value,
+      [name]: value,
     });
   };
 
