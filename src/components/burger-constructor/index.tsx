@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useDrop } from "react-dnd";
 
@@ -20,8 +19,6 @@ import { profileSelector } from "store/profile/selectors";
 
 import { IBurgerIngredientsItem } from "types/interfaces";
 
-import { AppDispatch } from "store";
-
 import {
   addBuns,
   addIngredient,
@@ -31,19 +28,22 @@ import {
   hideOrderModal,
 } from "store/order/slice";
 
+import { useAppSelector } from "hooks/useAppSelector";
+
 import { checkoutOrder } from "store/order/asyncThunks";
+import { useAppDispatch } from "hooks/useAppDispatch";
 
 import styles from "./style.module.scss";
 
 const BurgerConstructor = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
-  const { authorizated } = useSelector(profileSelector);
+  const { authorizated } = useAppSelector(profileSelector);
 
   const { buns, ingredients, order, showOrderModal } =
-    useSelector(orderSelector);
+    useAppSelector(orderSelector);
 
   const [{ isDrag }, drop] = useDrop({
     accept: "ingredient",

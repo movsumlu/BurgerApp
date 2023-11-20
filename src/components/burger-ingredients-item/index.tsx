@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import { useSelector } from "react-redux";
 
 import {
   Counter,
@@ -9,6 +8,8 @@ import {
 import { useDrag } from "react-dnd";
 
 import { orderSelector } from "store/order/selectors";
+
+import { useAppSelector } from "hooks/useAppSelector";
 
 import { IBurgerIngredientsItem } from "types/interfaces";
 
@@ -20,7 +21,7 @@ const BurgerIngredientsItem = (props: {
 }) => {
   const items = props.items;
 
-  const { buns, ingredients } = useSelector(orderSelector);
+  const { buns, ingredients } = useAppSelector(orderSelector);
 
   const selectIngredient = (item: IBurgerIngredientsItem) => {
     props.onSelectIngredient(item);

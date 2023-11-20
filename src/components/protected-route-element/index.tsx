@@ -1,12 +1,13 @@
-import { useSelector } from "react-redux";
 import { Navigate, useLocation } from "react-router-dom";
+
+import { useAppSelector } from "hooks/useAppSelector";
 
 import { profileSelector } from "store/profile/selectors";
 
 const ProtectedRouteElement = ({ element }: { element: JSX.Element }) => {
   const location = useLocation();
 
-  const { authorizated } = useSelector(profileSelector);
+  const { authorizated } = useAppSelector(profileSelector);
 
   const from = location.state?.from || "/";
 

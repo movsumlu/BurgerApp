@@ -1,7 +1,7 @@
 import { useCallback, useRef } from "react";
-import { useDispatch } from "react-redux";
-
 import { useDrag, useDrop } from "react-dnd";
+
+import { useAppDispatch } from "hooks/useAppDispatch";
 
 import {
   DragIcon,
@@ -24,7 +24,7 @@ interface IBurgerConstructorItemProps {
 const BurgerConstructorItem = (props: IBurgerConstructorItemProps) => {
   const { index, item, isLocked, deleteIngredient } = props;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const ref = useRef<HTMLElement | null>(null);
 

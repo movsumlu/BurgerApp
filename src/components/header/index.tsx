@@ -1,4 +1,3 @@
-import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 import {
@@ -9,11 +8,11 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { profileSelector } from "store/profile/selectors";
+import { useAppSelector } from "hooks/useAppSelector";
 
 import styles from "./style.module.scss";
-
 const AppHeader = () => {
-  const { authorizated } = useSelector(profileSelector);
+  const { authorizated } = useAppSelector(profileSelector);
 
   return (
     <header className={styles.header}>

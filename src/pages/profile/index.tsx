@@ -1,17 +1,19 @@
-import { useDispatch } from "react-redux";
 import { NavLink } from "react-router-dom";
 
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { deleteAllCookies } from "services/cookie";
+
 import { clearUser } from "store/profile/slice";
+
+import { useAppDispatch } from "hooks/useAppDispatch";
 
 import { useForm } from "hooks/useForm";
 
 import styles from "./style.module.scss";
 
 const Profile = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { formData, handleChange } = useForm({
     name: "",

@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
 import Header from "components/header";
@@ -16,7 +15,8 @@ import Profile from "pages/profile";
 
 import { ERROR_TEXT } from "consts";
 
-import { AppDispatch } from "store";
+import { useAppDispatch } from "hooks/useAppDispatch";
+import { useAppSelector } from "hooks/useAppSelector";
 
 import { hideIngredientModal } from "store/ingredients/slice";
 import { ingredientsSelector } from "store/ingredients/selectors";
@@ -25,14 +25,14 @@ import { fetchIngredients } from "store/ingredients/asyncThunks";
 import styles from "./style.module.scss";
 
 const App = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
 
   const location = useLocation();
   const state = location.state;
 
-  const { errors } = useSelector(ingredientsSelector);
+  const { errors } = useAppSelector(ingredientsSelector);
 
   useEffect(() => {
     dispatch(fetchIngredients());

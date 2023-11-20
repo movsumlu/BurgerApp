@@ -1,9 +1,13 @@
 import { useState, useRef, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import BurgerIngredientsItem from "components/burger-ingredients-item";
+
+import { useAppDispatch } from "hooks/useAppDispatch";
+import { useAppSelector } from "hooks/useAppSelector";
 
 import {
   selectIngredient,
@@ -15,15 +19,14 @@ import { ingredientsSelector } from "store/ingredients/selectors";
 import { IBurgerIngredientsItem } from "types/interfaces";
 
 import styles from "./style.module.scss";
-import { useLocation, useNavigate } from "react-router-dom";
 
 const BurgerIngredients = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const location = useLocation();
 
-  const { ingredients } = useSelector(ingredientsSelector);
+  const { ingredients } = useAppSelector(ingredientsSelector);
 
   const [selectedIngredientNav, setSelectedIngredientNav] = useState("bun");
 

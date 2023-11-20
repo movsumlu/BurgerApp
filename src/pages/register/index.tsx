@@ -1,5 +1,4 @@
 import { SyntheticEvent, useCallback, useMemo } from "react";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import {
@@ -8,9 +7,9 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { AppDispatch } from "store";
-
 import { registerUser } from "store/profile/asyncThunks";
+
+import { useAppDispatch } from "hooks/useAppDispatch";
 
 import { useForm } from "hooks/useForm";
 import { useOnEnter } from "hooks/useOnEnter";
@@ -18,7 +17,7 @@ import { useOnEnter } from "hooks/useOnEnter";
 import styles from "./style.module.scss";
 
 const Register = () => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
   const { formData, handleChange } = useForm({
     name: "",

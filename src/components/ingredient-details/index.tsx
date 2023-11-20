@@ -1,20 +1,25 @@
+import { useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
+
+import { selectIngredient } from "store/ingredients/slice";
+
+import { useAppDispatch } from "hooks/useAppDispatch";
+import { useAppSelector } from "hooks/useAppSelector";
 
 import { NUTRITIONS } from "consts";
 
 import styles from "./style.module.scss";
-import { useDispatch, useSelector } from "react-redux";
+
 import { ingredientsSelector } from "store/ingredients/selectors";
-import { useEffect } from "react";
-import { selectIngredient } from "store/ingredients/slice";
 
 const IngredientDetails = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const location = useLocation();
   const state = location.state;
 
-  const { ingredients, selectedIngredient } = useSelector(ingredientsSelector);
+  const { ingredients, selectedIngredient } =
+    useAppSelector(ingredientsSelector);
 
   const { id } = useParams();
 
