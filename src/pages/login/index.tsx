@@ -8,10 +8,8 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { LOGIN_URL, checkResponse } from "services/API";
-
-import { setCookie } from "services/cookie";
-import { setUser } from "store/profile/slice";
+import { loginUser } from "store/profile/asyncThunks";
+import { AppDispatch } from "store";
 
 import { useForm } from "hooks/useForm";
 import { useOnEnter } from "hooks/useOnEnter";
@@ -19,7 +17,7 @@ import { useOnEnter } from "hooks/useOnEnter";
 import styles from "./style.module.scss";
 
 const Login = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const { formData, handleChange } = useForm({
     email: "",
@@ -30,46 +28,19 @@ const Login = () => {
     return !formData.email || !formData.password;
   }, [formData]);
 
-  const loginUser = useCallback(
+  const loginUserHandler = useCallback(
     async (event: SyntheticEvent | KeyboardEvent) => {
       event.preventDefault();
-
-      try {
-        const response = await fetch(`${LOGIN_URL}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        });
-
-        const loginUserResponse = await checkResponse(response);
-
-        const { success, user, accessToken, refreshToken } = loginUserResponse;
-
-        if (success) {
-          dispatch(
-            setUser({
-              name: user.name,
-              email: user.email,
-            })
-          );
-
-          setCookie("token", accessToken.split("Bearer ")[1]);
-          localStorage.setItem("refreshToken", refreshToken);
-        }
-      } catch (error) {
-        console.error(error);
-      }
+      await dispatch(loginUser(formData));
     },
     [formData, dispatch]
   );
 
-  useOnEnter(loginUser, hasEmptyField);
+  useOnEnter(loginUserHandler, hasEmptyField);
 
   return (
     <div className={styles.loginBlock}>
-      <form className={styles.loginForm} onSubmit={loginUser}>
+      <form className={styles.loginForm} onSubmit={loginUserHandler}>
         <h3 className="text text_type_main-medium">Вход</h3>
         <Input
           name={"email"}

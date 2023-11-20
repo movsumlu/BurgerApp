@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getCookie } from "services/cookie";
+import { loginUser, registerUser } from "./asyncThunks";
 
 interface IProfileState {
   authorizated: boolean;
@@ -21,16 +22,6 @@ const profileSlice = createSlice({
   name: "profileSlice",
   initialState,
   reducers: {
-    setUser(state, action) {
-      const { name, email } = action.payload;
-
-      return {
-        ...state,
-        name: name,
-        email: email,
-        authorizated: true,
-      };
-    },
     clearUser(state) {
       return {
         ...state,
@@ -40,8 +31,63 @@ const profileSlice = createSlice({
       };
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(loginUser.pending, (state: IProfileState) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    });
+
+    builder.addCase(loginUser.fulfilled, (state, action) => {
+      const { name, email } = action.payload;
+
+      return {
+        ...state,
+        name: name,
+        email: email,
+        authorizated: true,
+        loading: false,
+      };
+    });
+
+    builder.addCase(loginUser.rejected, (state: IProfileState, action) => {
+      return {
+        ...state,
+        loading: false,
+        errors: action.payload,
+      };
+    });
+
+    builder.addCase(registerUser.pending, (state: IProfileState) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    });
+
+    builder.addCase(registerUser.fulfilled, (state, action) => {
+      const { name, email } = action.payload;
+
+      return {
+        ...state,
+        name: name,
+        email: email,
+        authorizated: true,
+        loading: false,
+      };
+    });
+
+    builder.addCase(registerUser.rejected, (state: IProfileState, action) => {
+      return {
+        ...state,
+        loading: false,
+        errors: action.payload,
+      };
+    });
+  },
 });
 
-export const { setUser, clearUser } = profileSlice.actions;
+export const { clearUser } = profileSlice.actions;
 
 export default profileSlice.reducer;
