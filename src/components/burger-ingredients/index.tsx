@@ -1,16 +1,17 @@
 import { useState, useRef, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import BurgerIngredientsItem from "components/burger-ingredients-item";
-import Modal from "components/modal";
-import IngredientDetails from "components/ingredient-details";
+
+import { useAppDispatch } from "hooks/useAppDispatch";
+import { useAppSelector } from "hooks/useAppSelector";
 
 import {
   selectIngredient,
   displayIngredientModal,
-  hideIngredientModal,
 } from "store/ingredients/slice";
 
 import { ingredientsSelector } from "store/ingredients/selectors";
@@ -20,10 +21,12 @@ import { IBurgerIngredientsItem } from "types/interfaces";
 import styles from "./style.module.scss";
 
 const BurgerIngredients = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
-  const { ingredients, selectedIngredient, showIngredientModal } =
-    useSelector(ingredientsSelector);
+  const location = useLocation();
+
+  const { ingredients } = useAppSelector(ingredientsSelector);
 
   const [selectedIngredientNav, setSelectedIngredientNav] = useState("bun");
 
@@ -88,6 +91,11 @@ const BurgerIngredients = () => {
   const handleSelectIngredient = (ingredient: IBurgerIngredientsItem) => {
     dispatch(selectIngredient(ingredient));
     dispatch(displayIngredientModal());
+
+    navigate(`/ingredients/${ingredient._id}`, {
+      state: { background: location },
+      replace: true,
+    });
   };
 
   const handleOnScroll = () => {
@@ -168,15 +176,6 @@ const BurgerIngredients = () => {
           </div>
         ))}
       </div>
-
-      {showIngredientModal && selectedIngredient && (
-        <Modal
-          headerText="Детали ингредиента"
-          onClose={() => dispatch(hideIngredientModal())}
-        >
-          <IngredientDetails selectedIngredient={selectedIngredient} />
-        </Modal>
-      )}
     </>
   );
 };

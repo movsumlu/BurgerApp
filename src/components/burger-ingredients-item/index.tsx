@@ -1,5 +1,4 @@
 import { useMemo } from "react";
-import { useSelector } from "react-redux";
 
 import {
   Counter,
@@ -9,6 +8,8 @@ import {
 import { useDrag } from "react-dnd";
 
 import { orderSelector } from "store/order/selectors";
+
+import { useAppSelector } from "hooks/useAppSelector";
 
 import { IBurgerIngredientsItem } from "types/interfaces";
 
@@ -20,7 +21,7 @@ const BurgerIngredientsItem = (props: {
 }) => {
   const items = props.items;
 
-  const { orderList } = useSelector(orderSelector);
+  const { buns, ingredients } = useAppSelector(orderSelector);
 
   const selectIngredient = (item: IBurgerIngredientsItem) => {
     props.onSelectIngredient(item);
@@ -37,13 +38,15 @@ const BurgerIngredientsItem = (props: {
   const countMap = useMemo(() => {
     const map = new Map();
 
-    orderList.forEach(({ _id }) => {
-      const count = map.get(_id) || 0;
-      map.set(_id, count + 1);
-    });
+    if (buns) {
+      [buns, ...ingredients].forEach(({ _id }) => {
+        const count = map.get(_id) || 0;
+        map.set(_id, count + 1);
+      });
+    }
 
     return map;
-  }, [orderList]);
+  }, [buns, ingredients]);
 
   const draggingOpacity = isDragging && styles.draggingOpacity;
 
@@ -61,7 +64,7 @@ const BurgerIngredientsItem = (props: {
               <Counter count={countMap.get(item._id)} size="default" />
             )}
 
-            <img src={item.image} alt="ingredientImage" />
+            <img src={item.image} alt={`Картинка ингредиента, ${item.image}`} />
 
             <div className={styles.ingredientPrice}>
               <span className="text text_type_digits-default mr-2">

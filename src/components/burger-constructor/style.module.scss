@@ -8,8 +8,12 @@
 
 .burgerConstructorItemWrapper {
   height: 837px;
-  overflow-y: scroll;
   padding-top: 10px;
+}
+
+.ingredientsWrapper {
+  max-height: 665px;
+  overflow-y: scroll;
 
   &::-webkit-scrollbar {
     height: 12px;

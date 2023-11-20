@@ -1,0 +1,28 @@
+.loginBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 280px;
+  margin-top: 50px;
+}
+
+.loginFooter {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 80px;
+}
+
+a {
+  text-decoration: none;
+  color: #4c4cff;
+}

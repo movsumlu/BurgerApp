@@ -1,0 +1,16 @@
+.registerForm {
+  height: 340px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 100px;
+}
+
+.registerFooter {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 80px;
+}
