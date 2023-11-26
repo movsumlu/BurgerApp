@@ -70,12 +70,12 @@ const BurgerConstructor = () => {
   }, [buns, ingredients]);
 
   const IDOfIngredients = useMemo(
-    () => ingredients.map(({ _id }) => _id),
-    [ingredients]
+    () => buns && ingredients.length && ingredients.map(({ _id }) => _id),
+    [buns, ingredients]
   );
 
   const checkoutOrderHandler = async () => {
-    if (authorizated) {
+    if (authorizated && IDOfIngredients) {
       await dispatch(checkoutOrder(IDOfIngredients));
       dispatch(clearOrder());
       dispatch(displayOrderModal());

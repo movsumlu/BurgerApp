@@ -4,7 +4,7 @@ import { API_URL, checkOkResponse, checkSuccessResponse } from "services/API";
 export const checkoutOrder = createAsyncThunk(
   "modal/checkoutOrder",
   async (IDOfIngredients: Array<string>) =>
-    fetch(`${API_URL}/api/orders`, {
+    fetch(`${API_URL}/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
