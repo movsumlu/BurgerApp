@@ -1,10 +1,11 @@
 import { NavLink } from "react-router-dom";
 
-import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
+import {
+  Button,
+  Input,
+} from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { deleteAllCookies } from "services/cookie";
-
-import { clearUser } from "store/profile/slice";
+import { logoutUser } from "store/profile/asyncThunks";
 
 import { useAppDispatch } from "hooks/useAppDispatch";
 
@@ -21,11 +22,7 @@ const Profile = () => {
     password: "",
   });
 
-  const logoutUser = () => {
-    deleteAllCookies();
-    dispatch(clearUser());
-    localStorage.removeItem("resetPasswordStepPassed");
-  };
+  const logoutUserHandler = async () => await dispatch(logoutUser());
 
   return (
     <div className={styles.profileBlock}>
@@ -47,14 +44,15 @@ const Profile = () => {
         <NavLink
           to="/login"
           className={`${styles.link} text text_type_main-medium text_color_inactive`}
-          onClick={logoutUser}
+          onClick={logoutUserHandler}
         >
           <span className="ml-2 pb-5">Выход</span>
         </NavLink>
 
         <div className="pt-20">
           <span className="text text_type_main-default text_color_inactive">
-            В этом разделе вы можете изменить свои персональные данные
+            В этом разделе вы можете <br />
+            изменить свои персональные данные
           </span>
         </div>
       </nav>
@@ -91,6 +89,16 @@ const Profile = () => {
           size={"default"}
           extraClass="mb-5"
         />
+
+        <div className={styles.profileFormFooter}>
+          <Button htmlType="button" type="secondary" size="medium">
+            <p className="text text_type_main-default">Отмена</p>
+          </Button>
+
+          <Button htmlType="button" type="primary" size="medium">
+            <p className="text text_type_main-default">Сохранить</p>
+          </Button>
+        </div>
       </form>
     </div>
   );

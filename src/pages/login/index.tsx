@@ -1,6 +1,5 @@
 import { SyntheticEvent, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "hooks/useAppDispatch";
 
 import {
   Input,
@@ -8,10 +7,12 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
+import { useAppDispatch } from "hooks/useAppDispatch";
+
 import { loginUser } from "store/profile/asyncThunks";
 
 import { useForm } from "hooks/useForm";
-import { useOnEnter } from "hooks/useOnEnter";
+import { useKeyDown } from "hooks/useKeyDown";
 
 import styles from "./style.module.scss";
 
@@ -35,7 +36,7 @@ const Login = () => {
     [formData, dispatch]
   );
 
-  useOnEnter(loginUserHandler, hasEmptyField);
+  useKeyDown(loginUserHandler, "Enter", hasEmptyField);
 
   return (
     <div className={styles.loginBlock}>

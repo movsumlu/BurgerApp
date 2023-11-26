@@ -78,6 +78,13 @@ const App = () => {
             />
 
             <Route path="/ingredients/:id" element={<IngredientDetails />} />
+
+            <Route
+              path="*"
+              element={
+                <h1 style={{ textAlign: "center" }}>Страница не найдена 🙄</h1>
+              }
+            />
           </Routes>
 
           {state?.background && (

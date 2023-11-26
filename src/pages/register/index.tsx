@@ -12,7 +12,7 @@ import { registerUser } from "store/profile/asyncThunks";
 import { useAppDispatch } from "hooks/useAppDispatch";
 
 import { useForm } from "hooks/useForm";
-import { useOnEnter } from "hooks/useOnEnter";
+import { useKeyDown } from "hooks/useKeyDown";
 
 import styles from "./style.module.scss";
 
@@ -37,7 +37,7 @@ const Register = () => {
     [formData, dispatch]
   );
 
-  useOnEnter(registerUserHandler, hasEmptyField);
+  useKeyDown(registerUserHandler, "Enter", hasEmptyField);
 
   return (
     <>

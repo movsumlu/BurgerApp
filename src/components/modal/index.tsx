@@ -1,9 +1,11 @@
-import { useEffect, ReactNode } from "react";
+import { ReactNode } from "react";
 import ReactDOM from "react-dom";
 
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import ModalOverlay from "components/modal-overlay";
+
+import { useKeyDown } from "hooks/useKeyDown";
 
 import styles from "./style.module.scss";
 
@@ -16,19 +18,7 @@ const Modal = (props: {
 }) => {
   const { headerText, onClose } = props;
 
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.code === "Escape") {
-        onClose();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [onClose]);
+  useKeyDown(onClose, "Escape");
 
   return modalRoot
     ? ReactDOM.createPortal(

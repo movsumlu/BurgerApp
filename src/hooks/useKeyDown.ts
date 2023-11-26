@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 
-export const useOnEnter = (
+export const useKeyDown = (
   method: (event: KeyboardEvent) => void,
-  hasEmptyField: boolean
+  keyName: string,
+  hasEmptyField: boolean = false
 ) => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Enter") {
+      if (event.key === keyName && !hasEmptyField) {
         method(event);
       }
     };
@@ -16,5 +17,5 @@ export const useOnEnter = (
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [method, hasEmptyField]);
+  }, [method, keyName, hasEmptyField]);
 };

@@ -39,7 +39,7 @@ const BurgerIngredientsItem = (props: {
     const map = new Map();
 
     if (buns) {
-      [buns, ...ingredients].forEach(({ _id }) => {
+      [buns, ...ingredients, buns].forEach(({ _id }) => {
         const count = map.get(_id) || 0;
         map.set(_id, count + 1);
       });
