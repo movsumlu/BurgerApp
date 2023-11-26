@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { NavLink } from "react-router-dom";
 
 import {
@@ -23,6 +24,10 @@ const Profile = () => {
   });
 
   const logoutUserHandler = async () => await dispatch(logoutUser());
+
+  const hasEmptyField = useMemo(() => {
+    return !formData.name || !formData.email || !formData.password;
+  }, [formData]);
 
   return (
     <div className={styles.profileBlock}>
@@ -92,11 +97,16 @@ const Profile = () => {
 
         <div className={styles.profileFormFooter}>
           <Button htmlType="button" type="secondary" size="medium">
-            <p className="text text_type_main-default">Отмена</p>
+            Отмена
           </Button>
 
-          <Button htmlType="button" type="primary" size="medium">
-            <p className="text text_type_main-default">Сохранить</p>
+          <Button
+            htmlType="button"
+            type="primary"
+            size="medium"
+            disabled={hasEmptyField}
+          >
+            Сохранить
           </Button>
         </div>
       </form>

@@ -69,7 +69,7 @@ const Register = () => {
           size="medium"
           disabled={hasEmptyField}
         >
-          <p className="text text_type_main-default">Зарегистрироваться</p>
+          Зарегистрироваться
         </Button>
       </form>
 

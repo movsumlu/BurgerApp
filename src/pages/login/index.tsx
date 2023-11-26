@@ -63,7 +63,7 @@ const Login = () => {
           size="medium"
           disabled={hasEmptyField}
         >
-          <p className="text text_type_main-default">Войти</p>
+          Войти
         </Button>
       </form>
 

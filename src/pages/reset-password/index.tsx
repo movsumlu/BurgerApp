@@ -82,7 +82,7 @@ const ResetPassword = () => {
           extraClass="mt-10"
           disabled={hasEmptyField}
         >
-          <p className="text text_type_main-default">Сохранить</p>
+          Сохранить
         </Button>
       </form>
 
