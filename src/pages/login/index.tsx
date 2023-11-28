@@ -8,11 +8,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { useAppDispatch } from "hooks/useAppDispatch";
-
-import { loginUser } from "store/profile/asyncThunks";
-
 import { useForm } from "hooks/useForm";
 import { useKeyDown } from "hooks/useKeyDown";
+
+import { loginUser } from "store/profile/asyncThunks";
 
 import styles from "./style.module.scss";
 

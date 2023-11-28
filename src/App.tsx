@@ -82,7 +82,7 @@ const App = () => {
             <Route
               path="*"
               element={
-                <h1 style={{ textAlign: "center" }}>Страница не найдена 🙄</h1>
+                <h1 className={styles.notFoundText}>Страница не найдена 🙄</h1>
               }
             />
           </Routes>
