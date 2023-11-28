@@ -24,9 +24,10 @@ const Login = () => {
     password: "",
   });
 
-  const hasEmptyField = useMemo(() => {
-    return !formData.email || !formData.password;
-  }, [formData]);
+  const hasEmptyField = useMemo(
+    () => !formData.email || !formData.password,
+    [formData]
+  );
 
   const loginUserHandler = useCallback(
     async (event: SyntheticEvent | KeyboardEvent) => {

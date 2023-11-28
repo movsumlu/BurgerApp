@@ -24,9 +24,10 @@ const ResetPassword = () => {
     code: "",
   });
 
-  const hasEmptyField = useMemo(() => {
-    return !formData.password || !formData.code;
-  }, [formData]);
+  const hasEmptyField = useMemo(
+    () => !formData.password || !formData.code,
+    [formData]
+  );
 
   const navigate = useNavigate();
 

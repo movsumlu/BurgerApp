@@ -25,9 +25,10 @@ const Profile = () => {
 
   const logoutUserHandler = async () => await dispatch(logoutUser());
 
-  const hasEmptyField = useMemo(() => {
-    return !formData.name || !formData.email || !formData.password;
-  }, [formData]);
+  const hasEmptyField = useMemo(
+    () => !formData.name || !formData.email || !formData.password,
+    [formData]
+  );
 
   return (
     <div className={styles.profileBlock}>
@@ -64,35 +65,35 @@ const Profile = () => {
 
       <form>
         <Input
+          name={"name"}
+          value={formData.name}
           type={"text"}
           placeholder={"Имя"}
-          onChange={handleChange}
           icon={"EditIcon"}
-          value={formData.name}
-          name={"name"}
           size={"default"}
           extraClass="mb-5"
+          onChange={handleChange}
         />
 
         <Input
-          type={"text"}
-          placeholder={"Email"}
-          onChange={handleChange}
-          icon={"EditIcon"}
           name={"email"}
           value={formData.email}
+          type={"text"}
+          placeholder={"Email"}
+          icon={"EditIcon"}
           extraClass="mb-5"
+          onChange={handleChange}
         />
 
         <Input
-          type={"password"}
-          placeholder={"Пароль"}
-          onChange={handleChange}
-          icon={"EditIcon"}
           name={"password"}
           value={formData.password}
+          type={"password"}
+          placeholder={"Пароль"}
+          icon={"EditIcon"}
           size={"default"}
           extraClass="mb-5"
+          onChange={handleChange}
         />
 
         <div className={styles.profileFormFooter}>

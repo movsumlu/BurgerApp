@@ -25,9 +25,10 @@ const Register = () => {
     password: "",
   });
 
-  const hasEmptyField = useMemo(() => {
-    return !formData.name || !formData.email || !formData.password;
-  }, [formData]);
+  const hasEmptyField = useMemo(
+    () => !formData.name || !formData.email || !formData.password,
+    [formData]
+  );
 
   const registerUserHandler = useCallback(
     async (event: SyntheticEvent | KeyboardEvent) => {
@@ -46,21 +47,21 @@ const Register = () => {
         <Input
           name={"name"}
           value={formData.name}
-          onChange={handleChange}
           type={"text"}
           placeholder={"Имя"}
+          onChange={handleChange}
         />
         <Input
           name={"email"}
           value={formData.email}
-          onChange={handleChange}
           type={"email"}
           placeholder={"E-mail"}
+          onChange={handleChange}
         />
         <PasswordInput
-          onChange={handleChange}
-          value={formData.password}
           name={"password"}
+          value={formData.password}
+          onChange={handleChange}
         />
 
         <Button

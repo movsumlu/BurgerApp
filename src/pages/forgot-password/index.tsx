@@ -24,9 +24,7 @@ const ForgotPassword = () => {
 
   const navigate = useNavigate();
 
-  const hasEmptyField = useMemo(() => {
-    return !formData.email;
-  }, [formData]);
+  const hasEmptyField = useMemo(() => !formData.email, [formData]);
 
   const resetPassword = useCallback(
     (event: SyntheticEvent | KeyboardEvent) => {
