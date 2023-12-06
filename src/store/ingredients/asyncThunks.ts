@@ -5,11 +5,13 @@ import {
   checkSuccessResponse,
 } from "services/API";
 
+import { IBurgerIngredientsItem } from "types/interfaces";
+
 export const fetchIngredients = createAsyncThunk(
   "ingredients/fetchIngredients",
   async () =>
     fetch(`${FETCH_INGREDIENTS_URL}`)
       .then(checkOkResponse)
       .then(checkSuccessResponse)
-      .then(({ data }) => data)
+      .then(({ data }: { data: IBurgerIngredientsItem[] }) => data)
 );

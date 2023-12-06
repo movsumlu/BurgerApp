@@ -10,6 +10,15 @@ import {
 
 import { setCookie, deleteAllCookies } from "services/cookie";
 
+interface IUserData {
+  accessToken: string;
+  refreshToken: string;
+  user: {
+    name: string;
+    email: string;
+  };
+}
+
 export const loginUser = createAsyncThunk(
   "profile/loginUser",
   (formData: { email: string; password: string }) =>
@@ -22,7 +31,7 @@ export const loginUser = createAsyncThunk(
     })
       .then(checkOkResponse)
       .then(checkSuccessResponse)
-      .then(({ accessToken, refreshToken, user }) => {
+      .then(({ accessToken, refreshToken, user }: IUserData) => {
         setCookie("token", accessToken.split("Bearer ")[1]);
         localStorage.setItem("refreshToken", refreshToken);
 
@@ -42,7 +51,7 @@ export const registerUser = createAsyncThunk(
     })
       .then(checkOkResponse)
       .then(checkSuccessResponse)
-      .then(({ accessToken, refreshToken, user }) => {
+      .then(({ accessToken, refreshToken, user }: IUserData) => {
         setCookie("token", accessToken.split("Bearer ")[1]);
         localStorage.setItem("refreshToken", refreshToken);
 

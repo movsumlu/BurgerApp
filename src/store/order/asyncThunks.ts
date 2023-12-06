@@ -13,5 +13,5 @@ export const checkoutOrder = createAsyncThunk(
     })
       .then(checkOkResponse)
       .then(checkSuccessResponse)
-      .then(({ order }) => order)
+      .then(({ order }: { order: { number: number } }) => order)
 );
