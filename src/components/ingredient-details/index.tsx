@@ -12,7 +12,7 @@ import styles from "./style.module.scss";
 
 import { ingredientsSelector } from "store/ingredients/selectors";
 
-const IngredientDetails = () => {
+export const IngredientDetails = () => {
   const dispatch = useAppDispatch();
 
   const location = useLocation();
@@ -70,5 +70,3 @@ const IngredientDetails = () => {
     </>
   );
 };
-
-export default IngredientDetails;

@@ -18,7 +18,7 @@ import {
 
 import styles from "./style.module.scss";
 
-const ResetPassword = () => {
+export const ResetPassword = () => {
   const { formData, handleChange } = useForm({
     password: "",
     code: "",
@@ -98,5 +98,3 @@ const ResetPassword = () => {
     </div>
   );
 };
-
-export default ResetPassword;

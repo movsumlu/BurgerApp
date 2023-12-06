@@ -14,7 +14,7 @@ import { useForm } from "hooks/useForm";
 
 import styles from "./style.module.scss";
 
-const Profile = () => {
+export const Profile = () => {
   const dispatch = useAppDispatch();
 
   const { formData, handleChange } = useForm({
@@ -114,5 +114,3 @@ const Profile = () => {
     </div>
   );
 };
-
-export default Profile;

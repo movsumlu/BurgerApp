@@ -16,7 +16,7 @@ import { useKeyDown } from "hooks/useKeyDown";
 
 import styles from "./style.module.scss";
 
-const Register = () => {
+export const Register = () => {
   const dispatch = useAppDispatch();
 
   const { formData, handleChange } = useForm({
@@ -85,5 +85,3 @@ const Register = () => {
     </>
   );
 };
-
-export default Register;

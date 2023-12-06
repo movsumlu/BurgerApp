@@ -21,7 +21,7 @@ interface IBurgerConstructorItemProps {
   deleteIngredient: () => void;
 }
 
-const BurgerConstructorItem = (props: IBurgerConstructorItemProps) => {
+export const BurgerConstructorItem = (props: IBurgerConstructorItemProps) => {
   const { index, item, isLocked, deleteIngredient } = props;
 
   const dispatch = useAppDispatch();
@@ -101,5 +101,3 @@ const BurgerConstructorItem = (props: IBurgerConstructorItemProps) => {
     </div>
   );
 };
-
-export default BurgerConstructorItem;

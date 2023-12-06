@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import BurgerIngredientsItem from "components/burger-ingredients-item";
+import { BurgerIngredientsItem } from "components/burger-ingredients-item";
 
 import { useAppDispatch } from "hooks/useAppDispatch";
 import { useAppSelector } from "hooks/useAppSelector";
@@ -20,7 +20,7 @@ import { IBurgerIngredientsItem } from "types/interfaces";
 
 import styles from "./style.module.scss";
 
-const BurgerIngredients = () => {
+export const BurgerIngredients = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -179,5 +179,3 @@ const BurgerIngredients = () => {
     </>
   );
 };
-
-export default BurgerIngredients;

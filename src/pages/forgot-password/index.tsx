@@ -17,7 +17,7 @@ import { useForm } from "hooks/useForm";
 
 import styles from "./style.module.scss";
 
-const ForgotPassword = () => {
+export const ForgotPassword = () => {
   const { formData, handleChange } = useForm({
     email: "",
   });
@@ -83,5 +83,3 @@ const ForgotPassword = () => {
     </div>
   );
 };
-
-export default ForgotPassword;

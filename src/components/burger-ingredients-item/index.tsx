@@ -15,7 +15,7 @@ import { IBurgerIngredientsItem } from "types/interfaces";
 
 import styles from "./style.module.scss";
 
-const BurgerIngredientsItem = (props: {
+export const BurgerIngredientsItem = (props: {
   items: IBurgerIngredientsItem[];
   onSelectIngredient: (item: IBurgerIngredientsItem) => void;
 }) => {
@@ -84,5 +84,3 @@ const BurgerIngredientsItem = (props: {
     </div>
   );
 };
-
-export default BurgerIngredientsItem;

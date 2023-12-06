@@ -15,7 +15,7 @@ import { loginUser } from "store/profile/asyncThunks";
 
 import styles from "./style.module.scss";
 
-const Login = () => {
+export const Login = () => {
   const dispatch = useAppDispatch();
 
   const { formData, handleChange } = useForm({
@@ -90,5 +90,3 @@ const Login = () => {
     </div>
   );
 };
-
-export default Login;

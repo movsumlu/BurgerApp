@@ -11,7 +11,8 @@ import { profileSelector } from "store/profile/selectors";
 import { useAppSelector } from "hooks/useAppSelector";
 
 import styles from "./style.module.scss";
-const AppHeader = () => {
+
+export const Header = () => {
   const { authorizated } = useAppSelector(profileSelector);
 
   return (
@@ -57,5 +58,3 @@ const AppHeader = () => {
     </header>
   );
 };
-
-export default AppHeader;

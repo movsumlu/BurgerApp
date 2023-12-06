@@ -10,9 +10,9 @@ import {
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import BurgerConstructorItem from "components/burger-constructor-item";
-import OrderDetails from "components/order-details";
-import Modal from "components/modal";
+import { BurgerConstructorItem } from "components/burger-constructor-item";
+import { OrderDetails } from "components/order-details";
+import { Modal } from "components/modal";
 
 import { orderSelector } from "store/order/selectors";
 import { profileSelector } from "store/profile/selectors";
@@ -35,7 +35,7 @@ import { useAppDispatch } from "hooks/useAppDispatch";
 
 import styles from "./style.module.scss";
 
-const BurgerConstructor = () => {
+export const BurgerConstructor = () => {
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -179,5 +179,3 @@ const BurgerConstructor = () => {
     </div>
   );
 };
-
-export default BurgerConstructor;

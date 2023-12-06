@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import ModalOverlay from "components/modal-overlay";
+import { ModalOverlay } from "components/modal-overlay";
 
 import { useKeyDown } from "hooks/useKeyDown";
 
@@ -11,7 +11,7 @@ import styles from "./style.module.scss";
 
 const modalRoot = document.getElementById("modal-root");
 
-const Modal = (props: {
+export const Modal = (props: {
   headerText: string;
   onClose: () => void;
   children?: ReactNode;
@@ -47,5 +47,3 @@ const Modal = (props: {
 Modal.defaultProps = {
   headerText: "",
 };
-
-export default Modal;
