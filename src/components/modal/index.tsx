@@ -11,11 +11,13 @@ import styles from "./style.module.scss";
 
 const modalRoot = document.getElementById("modal-root");
 
-export const Modal = (props: {
+interface IModalProps {
   headerText: string;
   onClose: () => void;
   children?: ReactNode;
-}) => {
+}
+
+export const Modal = (props: IModalProps) => {
   const { headerText, onClose } = props;
 
   useKeyDown(onClose, "Escape");

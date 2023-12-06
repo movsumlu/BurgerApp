@@ -15,10 +15,12 @@ import { IBurgerIngredientsItem } from "types/interfaces";
 
 import styles from "./style.module.scss";
 
-export const BurgerIngredientsItem = (props: {
+interface IBurgerIngredientsItemProps {
   items: IBurgerIngredientsItem[];
   onSelectIngredient: (item: IBurgerIngredientsItem) => void;
-}) => {
+}
+
+export const BurgerIngredientsItem = (props: IBurgerIngredientsItemProps) => {
   const items = props.items;
 
   const { buns, ingredients } = useAppSelector(orderSelector);

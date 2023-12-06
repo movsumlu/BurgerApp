@@ -28,7 +28,10 @@ export const BurgerIngredients = () => {
 
   const { ingredients } = useAppSelector(ingredientsSelector);
 
-  const [selectedIngredientNav, setSelectedIngredientNav] = useState("bun");
+  type TIngredientNavItem = "bun" | "sauce" | "main";
+
+  const [selectedIngredientNav, setSelectedIngredientNav] =
+    useState<TIngredientNavItem>("bun");
 
   const buns = useMemo(
     () => ingredients.filter(({ type }) => type === "bun"),
@@ -72,7 +75,7 @@ export const BurgerIngredients = () => {
     },
   ];
 
-  const onSelectIngredientNav = (value: string) => {
+  const onSelecTIngredientNavItem = (value: TIngredientNavItem) => {
     setSelectedIngredientNav(value);
 
     if (value === "bun" && bunRef.current) {
@@ -146,7 +149,9 @@ export const BurgerIngredients = () => {
               key={value}
               value={value}
               active={selectedIngredientNav === value}
-              onClick={() => onSelectIngredientNav(value)}
+              onClick={() =>
+                onSelecTIngredientNavItem(value as TIngredientNavItem)
+              }
             >
               {name}
             </Tab>

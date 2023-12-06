@@ -60,14 +60,16 @@ export const BurgerConstructor = () => {
   });
 
   const totalPrice = useMemo(() => {
-    return [buns, ...ingredients, buns].reduce((acc, item) => {
-      return item !== null ? acc + item.price : acc;
-    }, 0);
+    return [buns, ...ingredients, buns].reduce(
+      (acc, item) => (item !== null ? acc + item.price : acc),
+      0
+    );
   }, [buns, ingredients]);
 
-  const hasBunsIngredients = useMemo(() => {
-    return (buns && !!ingredients.length) || (!buns && !ingredients.length);
-  }, [buns, ingredients]);
+  const hasBunsIngredients = useMemo(
+    () => (buns && !!ingredients.length) || (!buns && !ingredients.length),
+    [buns, ingredients]
+  );
 
   const IDOfIngredients = useMemo(
     () => buns && ingredients.length && ingredients.map(({ _id }) => _id),
@@ -77,6 +79,7 @@ export const BurgerConstructor = () => {
   const checkoutOrderHandler = async () => {
     if (authorizated && IDOfIngredients) {
       await dispatch(checkoutOrder(IDOfIngredients));
+
       dispatch(clearOrder());
       dispatch(displayOrderModal());
     } else {
@@ -84,9 +87,7 @@ export const BurgerConstructor = () => {
     }
   };
 
-  const closeOrderModalHandler = () => {
-    dispatch(hideOrderModal());
-  };
+  const closeOrderModalHandler = () => dispatch(hideOrderModal());
 
   const draggingOpacity = isDrag && styles.draggingOpacity;
 
