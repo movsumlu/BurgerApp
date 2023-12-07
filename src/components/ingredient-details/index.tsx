@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
 
 import { selectIngredient } from "store/ingredients/slice";
+import { ingredientsSelector } from "store/ingredients/selectors";
 
 import { useAppDispatch } from "hooks/useAppDispatch";
 import { useAppSelector } from "hooks/useAppSelector";
@@ -9,8 +10,6 @@ import { useAppSelector } from "hooks/useAppSelector";
 import { NUTRITIONS } from "consts";
 
 import styles from "./style.module.scss";
-
-import { ingredientsSelector } from "store/ingredients/selectors";
 
 export const IngredientDetails = () => {
   const dispatch = useAppDispatch();

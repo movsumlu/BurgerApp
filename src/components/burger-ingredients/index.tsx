@@ -97,7 +97,6 @@ export const BurgerIngredients = () => {
 
     navigate(`/ingredients/${ingredient._id}`, {
       state: { background: location },
-      replace: true,
     });
   };
 

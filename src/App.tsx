@@ -30,7 +30,7 @@ export const App = () => {
   const navigate = useNavigate();
 
   const location = useLocation();
-  const state = location.state;
+  const background = location.state?.background;
 
   const { errors } = useAppSelector(ingredientsSelector);
 
@@ -49,7 +49,7 @@ export const App = () => {
         <>
           <Header />
 
-          <Routes location={state?.background || location}>
+          <Routes location={background || location}>
             <Route path="" element={<Main />} />
 
             <Route
@@ -87,7 +87,7 @@ export const App = () => {
             />
           </Routes>
 
-          {state?.background && (
+          {background && (
             <Routes>
               <Route
                 path="/ingredients/:id"
