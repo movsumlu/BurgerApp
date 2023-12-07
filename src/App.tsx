@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 
-import Header from "components/header";
-import IngredientDetails from "components/ingredient-details";
-import ProtectedRouteElement from "components/protected-route-element";
-import Modal from "components/modal";
+import { Header } from "components/header";
+import { IngredientDetails } from "components/ingredient-details";
+import { ProtectedRouteElement } from "components/protected-route-element";
+import { Modal } from "components/modal";
 
-import Main from "pages/main";
-import Login from "pages/login";
-import Register from "pages/register";
-import ForgotPassword from "pages/forgot-password";
-import ResetPassword from "pages/reset-password";
-import Profile from "pages/profile";
+import { Main } from "pages/main";
+import { Login } from "pages/login";
+import { Register } from "pages/register";
+import { ForgotPassword } from "pages/forgot-password";
+import { ResetPassword } from "pages/reset-password";
+import { Profile } from "pages/profile";
 
 import { ERROR_TEXT } from "consts";
 
@@ -24,7 +24,7 @@ import { fetchIngredients } from "store/ingredients/asyncThunks";
 
 import styles from "./style.module.scss";
 
-const App = () => {
+export const App = () => {
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -36,7 +36,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchIngredients());
-  }, [dispatch, navigate]);
+  }, [dispatch]);
 
   const onCloseModalHandler = () => {
     dispatch(hideIngredientModal());
@@ -78,6 +78,13 @@ const App = () => {
             />
 
             <Route path="/ingredients/:id" element={<IngredientDetails />} />
+
+            <Route
+              path="*"
+              element={
+                <h1 className={styles.notFoundText}>Страница не найдена 🙄</h1>
+              }
+            />
           </Routes>
 
           {state?.background && (
@@ -104,5 +111,3 @@ const App = () => {
     </div>
   );
 };
-
-export default App;

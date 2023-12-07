@@ -15,10 +15,12 @@ import { IBurgerIngredientsItem } from "types/interfaces";
 
 import styles from "./style.module.scss";
 
-const BurgerIngredientsItem = (props: {
+interface IBurgerIngredientsItemProps {
   items: IBurgerIngredientsItem[];
   onSelectIngredient: (item: IBurgerIngredientsItem) => void;
-}) => {
+}
+
+export const BurgerIngredientsItem = (props: IBurgerIngredientsItemProps) => {
   const items = props.items;
 
   const { buns, ingredients } = useAppSelector(orderSelector);
@@ -39,7 +41,7 @@ const BurgerIngredientsItem = (props: {
     const map = new Map();
 
     if (buns) {
-      [buns, ...ingredients].forEach(({ _id }) => {
+      [buns, ...ingredients, buns].forEach(({ _id }) => {
         const count = map.get(_id) || 0;
         map.set(_id, count + 1);
       });
@@ -84,5 +86,3 @@ const BurgerIngredientsItem = (props: {
     </div>
   );
 };
-
-export default BurgerIngredientsItem;

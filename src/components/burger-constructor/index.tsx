@@ -10,9 +10,9 @@ import {
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import BurgerConstructorItem from "components/burger-constructor-item";
-import OrderDetails from "components/order-details";
-import Modal from "components/modal";
+import { BurgerConstructorItem } from "components/burger-constructor-item";
+import { OrderDetails } from "components/order-details";
+import { Modal } from "components/modal";
 
 import { orderSelector } from "store/order/selectors";
 import { profileSelector } from "store/profile/selectors";
@@ -35,7 +35,7 @@ import { useAppDispatch } from "hooks/useAppDispatch";
 
 import styles from "./style.module.scss";
 
-const BurgerConstructor = () => {
+export const BurgerConstructor = () => {
   const dispatch = useAppDispatch();
 
   const navigate = useNavigate();
@@ -60,23 +60,26 @@ const BurgerConstructor = () => {
   });
 
   const totalPrice = useMemo(() => {
-    return [buns, ...ingredients, buns].reduce((acc, item) => {
-      return item !== null ? acc + item.price : acc;
-    }, 0);
+    return [buns, ...ingredients, buns].reduce(
+      (acc, item) => (item !== null ? acc + item.price : acc),
+      0
+    );
   }, [buns, ingredients]);
 
-  const hasBunsIngredients = useMemo(() => {
-    return (buns && !!ingredients.length) || (!buns && !ingredients.length);
-  }, [buns, ingredients]);
+  const hasBunsIngredients = useMemo(
+    () => (buns && !!ingredients.length) || (!buns && !ingredients.length),
+    [buns, ingredients]
+  );
 
   const IDOfIngredients = useMemo(
-    () => ingredients.map(({ _id }) => _id),
-    [ingredients]
+    () => buns && ingredients.length && ingredients.map(({ _id }) => _id),
+    [buns, ingredients]
   );
 
   const checkoutOrderHandler = async () => {
-    if (authorizated) {
+    if (authorizated && IDOfIngredients) {
       await dispatch(checkoutOrder(IDOfIngredients));
+
       dispatch(clearOrder());
       dispatch(displayOrderModal());
     } else {
@@ -84,9 +87,7 @@ const BurgerConstructor = () => {
     }
   };
 
-  const closeOrderModalHandler = () => {
-    dispatch(hideOrderModal());
-  };
+  const closeOrderModalHandler = () => dispatch(hideOrderModal());
 
   const draggingOpacity = isDrag && styles.draggingOpacity;
 
@@ -107,7 +108,7 @@ const BurgerConstructor = () => {
                 <ConstructorElement
                   type="top"
                   isLocked={true}
-                  text={buns.name + " (верх)"}
+                  text={`${buns.name} (верх)`}
                   price={buns.price}
                   thumbnail={buns.image}
                 />
@@ -139,7 +140,7 @@ const BurgerConstructor = () => {
                 <ConstructorElement
                   type="bottom"
                   isLocked={true}
-                  text={buns.name + " (низ)"}
+                  text={`${buns.name} (низ)`}
                   price={buns.price}
                   thumbnail={buns.image}
                 />
@@ -179,5 +180,3 @@ const BurgerConstructor = () => {
     </div>
   );
 };
-
-export default BurgerConstructor;

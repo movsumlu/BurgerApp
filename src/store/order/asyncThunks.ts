@@ -1,19 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { API_URL, checkResponse } from "services/API";
+import { API_URL, checkOkResponse, checkSuccessResponse } from "services/API";
 
 export const checkoutOrder = createAsyncThunk(
   "modal/checkoutOrder",
-  async (IDOfIngredients: Array<string>) => {
-    const response = await fetch(`${API_URL}/api/orders`, {
+  async (IDOfIngredients: Array<string>) =>
+    fetch(`${API_URL}/orders`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ ingredients: IDOfIngredients }),
-    });
-
-    const { order } = await checkResponse(response);
-
-    return order;
-  }
+    })
+      .then(checkOkResponse)
+      .then(checkSuccessResponse)
+      .then(({ order }: { order: { number: number } }) => order)
 );

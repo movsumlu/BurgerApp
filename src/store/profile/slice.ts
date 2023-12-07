@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getCookie } from "services/cookie";
-import { loginUser, registerUser } from "./asyncThunks";
+import { loginUser, registerUser, logoutUser } from "./asyncThunks";
 
 interface IProfileState {
   authorizated: boolean;
@@ -21,16 +21,7 @@ const initialState: IProfileState = {
 const profileSlice = createSlice({
   name: "profileSlice",
   initialState,
-  reducers: {
-    clearUser(state) {
-      return {
-        ...state,
-        name: null,
-        email: null,
-        authorizated: false,
-      };
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(loginUser.pending, (state: IProfileState) => {
       return {
@@ -85,9 +76,32 @@ const profileSlice = createSlice({
         errors: action.payload,
       };
     });
+
+    builder.addCase(logoutUser.pending, (state: IProfileState) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    });
+
+    builder.addCase(logoutUser.fulfilled, (state) => {
+      return {
+        ...state,
+        name: null,
+        email: null,
+        authorizated: false,
+        loading: false,
+      };
+    });
+
+    builder.addCase(logoutUser.rejected, (state: IProfileState, action) => {
+      return {
+        ...state,
+        loading: false,
+        errors: action.payload,
+      };
+    });
   },
 });
-
-export const { clearUser } = profileSlice.actions;
 
 export default profileSlice.reducer;

@@ -1,6 +1,5 @@
 import { SyntheticEvent, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
-import { useAppDispatch } from "hooks/useAppDispatch";
 
 import {
   Input,
@@ -8,14 +7,15 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { loginUser } from "store/profile/asyncThunks";
-
+import { useAppDispatch } from "hooks/useAppDispatch";
 import { useForm } from "hooks/useForm";
-import { useOnEnter } from "hooks/useOnEnter";
+import { useKeyDown } from "hooks/useKeyDown";
+
+import { loginUser } from "store/profile/asyncThunks";
 
 import styles from "./style.module.scss";
 
-const Login = () => {
+export const Login = () => {
   const dispatch = useAppDispatch();
 
   const { formData, handleChange } = useForm({
@@ -23,9 +23,10 @@ const Login = () => {
     password: "",
   });
 
-  const hasEmptyField = useMemo(() => {
-    return !formData.email || !formData.password;
-  }, [formData]);
+  const hasEmptyField = useMemo(
+    () => !formData.email || !formData.password,
+    [formData]
+  );
 
   const loginUserHandler = useCallback(
     async (event: SyntheticEvent | KeyboardEvent) => {
@@ -35,7 +36,7 @@ const Login = () => {
     [formData, dispatch]
   );
 
-  useOnEnter(loginUserHandler, hasEmptyField);
+  useKeyDown(loginUserHandler, "Enter", hasEmptyField);
 
   return (
     <div className={styles.loginBlock}>
@@ -62,7 +63,7 @@ const Login = () => {
           size="medium"
           disabled={hasEmptyField}
         >
-          <p className="text text_type_main-default">Войти</p>
+          Войти
         </Button>
       </form>
 
@@ -89,5 +90,3 @@ const Login = () => {
     </div>
   );
 };
-
-export default Login;

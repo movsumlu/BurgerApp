@@ -1,4 +1,4 @@
-import { SyntheticEvent, useCallback, useMemo, useState } from "react";
+import { SyntheticEvent, useCallback, useMemo } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 import {
@@ -6,57 +6,60 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { FORGOT_PASSWORD_URL, checkResponse } from "services/API";
-import { useOnEnter } from "hooks/useOnEnter";
+import {
+  FORGOT_PASSWORD_URL,
+  checkOkResponse,
+  checkSuccessResponse,
+} from "services/API";
+
+import { useKeyDown } from "hooks/useKeyDown";
+import { useForm } from "hooks/useForm";
 
 import styles from "./style.module.scss";
 
-const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
+export const ForgotPassword = () => {
+  const { formData, handleChange } = useForm({
+    email: "",
+  });
 
   const navigate = useNavigate();
 
-  const hasEmptyField = useMemo(() => {
-    return !email;
-  }, [email]);
+  const hasEmptyField = useMemo(() => !formData.email, [formData]);
 
   const resetPassword = useCallback(
-    async (event: SyntheticEvent | KeyboardEvent) => {
+    (event: SyntheticEvent | KeyboardEvent) => {
       event.preventDefault();
 
-      try {
-        const response = await fetch(`${FORGOT_PASSWORD_URL}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email: email }),
-        });
-
-        const { success } = await checkResponse(response);
-
-        if (success) {
+      return fetch(`${FORGOT_PASSWORD_URL}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: formData.email }),
+      })
+        .then(checkOkResponse)
+        .then(checkSuccessResponse)
+        .then(() => {
           localStorage.setItem("resetPasswordStepPassed", "true");
           navigate("/reset-password", { replace: true });
-        }
-      } catch (error) {
-        console.error(error);
-      }
+        });
     },
-    [email, navigate]
+
+    [formData, navigate]
   );
 
-  useOnEnter(resetPassword, hasEmptyField);
+  useKeyDown(resetPassword, "Enter", hasEmptyField);
 
   return (
     <div className={styles.forgotPasswordBlock}>
       <form className={styles.forgotPasswordForm} onSubmit={resetPassword}>
         <h3 className="text text_type_main-medium">Восстановление пароля</h3>
         <Input
+          name={"email"}
+          value={formData.email}
           type={"email"}
-          placeholder={"Укажите e-mail"}
-          onChange={(event) => setEmail(event.target.value)}
-          value={email}
+          placeholder={"E-mail"}
+          onChange={handleChange}
         />
 
         <Button
@@ -65,7 +68,7 @@ const ForgotPassword = () => {
           size="medium"
           disabled={hasEmptyField}
         >
-          <p className="text text_type_main-default">Восстановить</p>
+          Восстановить
         </Button>
       </form>
 
@@ -80,5 +83,3 @@ const ForgotPassword = () => {
     </div>
   );
 };
-
-export default ForgotPassword;

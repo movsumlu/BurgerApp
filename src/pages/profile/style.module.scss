@@ -1,5 +1,6 @@
 .profileBlock {
   display: flex;
+  justify-content: space-around;
   margin-top: 100px;
 }
 
@@ -14,4 +15,8 @@
 
 .link__active {
   color: white;
+}
+
+.profileFormFooter {
+  float: right;
 }

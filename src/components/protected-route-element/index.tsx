@@ -4,7 +4,11 @@ import { useAppSelector } from "hooks/useAppSelector";
 
 import { profileSelector } from "store/profile/selectors";
 
-const ProtectedRouteElement = ({ element }: { element: JSX.Element }) => {
+export const ProtectedRouteElement = ({
+  element,
+}: {
+  element: JSX.Element;
+}) => {
   const location = useLocation();
 
   const { authorizated } = useAppSelector(profileSelector);
@@ -42,5 +46,3 @@ const ProtectedRouteElement = ({ element }: { element: JSX.Element }) => {
 
   return element;
 };
-
-export default ProtectedRouteElement;

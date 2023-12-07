@@ -12,11 +12,11 @@ import { registerUser } from "store/profile/asyncThunks";
 import { useAppDispatch } from "hooks/useAppDispatch";
 
 import { useForm } from "hooks/useForm";
-import { useOnEnter } from "hooks/useOnEnter";
+import { useKeyDown } from "hooks/useKeyDown";
 
 import styles from "./style.module.scss";
 
-const Register = () => {
+export const Register = () => {
   const dispatch = useAppDispatch();
 
   const { formData, handleChange } = useForm({
@@ -25,9 +25,10 @@ const Register = () => {
     password: "",
   });
 
-  const hasEmptyField = useMemo(() => {
-    return !formData.name || !formData.email || !formData.password;
-  }, [formData]);
+  const hasEmptyField = useMemo(
+    () => !formData.name || !formData.email || !formData.password,
+    [formData]
+  );
 
   const registerUserHandler = useCallback(
     async (event: SyntheticEvent | KeyboardEvent) => {
@@ -37,7 +38,7 @@ const Register = () => {
     [formData, dispatch]
   );
 
-  useOnEnter(registerUserHandler, hasEmptyField);
+  useKeyDown(registerUserHandler, "Enter", hasEmptyField);
 
   return (
     <>
@@ -46,21 +47,21 @@ const Register = () => {
         <Input
           name={"name"}
           value={formData.name}
-          onChange={handleChange}
           type={"text"}
           placeholder={"Имя"}
+          onChange={handleChange}
         />
         <Input
           name={"email"}
           value={formData.email}
-          onChange={handleChange}
           type={"email"}
           placeholder={"E-mail"}
+          onChange={handleChange}
         />
         <PasswordInput
-          onChange={handleChange}
-          value={formData.password}
           name={"password"}
+          value={formData.password}
+          onChange={handleChange}
         />
 
         <Button
@@ -69,7 +70,7 @@ const Register = () => {
           size="medium"
           disabled={hasEmptyField}
         >
-          <p className="text text_type_main-default">Зарегистрироваться</p>
+          Зарегистрироваться
         </Button>
       </form>
 
@@ -84,5 +85,3 @@ const Register = () => {
     </>
   );
 };
-
-export default Register;

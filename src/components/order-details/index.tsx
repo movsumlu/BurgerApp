@@ -2,7 +2,7 @@ import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-component
 
 import styles from "./style.module.scss";
 
-const OrderDetails = (props: { orderNumber: number | null }) => {
+export const OrderDetails = (props: { orderNumber: number | null }) => {
   const orderNumber = props.orderNumber;
   const orderStatus = "Ваш заказ начали готовить";
   const orderDescription = "Дождитесь готовности на орбитальной станции";
@@ -30,5 +30,3 @@ const OrderDetails = (props: { orderNumber: number | null }) => {
     </div>
   );
 };
-
-export default OrderDetails;

@@ -8,21 +8,26 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { useForm } from "hooks/useForm";
-import { useOnEnter } from "hooks/useOnEnter";
+import { useKeyDown } from "hooks/useKeyDown";
 
-import { RESET_PASSWORD_URL, checkResponse } from "services/API";
+import {
+  RESET_PASSWORD_URL,
+  checkOkResponse,
+  checkSuccessResponse,
+} from "services/API";
 
 import styles from "./style.module.scss";
 
-const ResetPassword = () => {
+export const ResetPassword = () => {
   const { formData, handleChange } = useForm({
     password: "",
     code: "",
   });
 
-  const hasEmptyField = useMemo(() => {
-    return !formData.password || !formData.code;
-  }, [formData]);
+  const hasEmptyField = useMemo(
+    () => !formData.password || !formData.code,
+    [formData]
+  );
 
   const navigate = useNavigate();
 
@@ -30,31 +35,24 @@ const ResetPassword = () => {
     async (event: SyntheticEvent | KeyboardEvent) => {
       event.preventDefault();
 
-      try {
-        const response = await fetch(`${RESET_PASSWORD_URL}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            password: formData.password,
-            token: formData.code,
-          }),
-        });
-
-        const { success } = await checkResponse(response);
-
-        if (success) {
-          navigate("/", { replace: true });
-        }
-      } catch (error) {
-        console.error(error);
-      }
+      fetch(`${RESET_PASSWORD_URL}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          password: formData.password,
+          token: formData.code,
+        }),
+      })
+        .then(checkOkResponse)
+        .then(checkSuccessResponse)
+        .then(() => navigate("/", { replace: true }));
     },
     [formData, navigate]
   );
 
-  useOnEnter(savePassword, hasEmptyField);
+  useKeyDown(savePassword, "Enter", hasEmptyField);
 
   return (
     <div className={styles.resetPasswordBlock}>
@@ -82,10 +80,10 @@ const ResetPassword = () => {
           htmlType="submit"
           type="primary"
           size="medium"
-          extraClass="mt-5"
+          extraClass="mt-10"
           disabled={hasEmptyField}
         >
-          <p className="text text_type_main-default">Сохранить</p>
+          Сохранить
         </Button>
       </form>
 
@@ -100,5 +98,3 @@ const ResetPassword = () => {
     </div>
   );
 };
-
-export default ResetPassword;
