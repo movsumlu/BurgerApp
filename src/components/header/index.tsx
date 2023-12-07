@@ -1,4 +1,5 @@
-import { NavLink } from "react-router-dom";
+import { useMemo } from "react";
+import { NavLink, useLocation } from "react-router-dom";
 
 import {
   BurgerIcon,
@@ -13,24 +14,49 @@ import { useAppSelector } from "hooks/useAppSelector";
 import styles from "./style.module.scss";
 
 export const Header = () => {
-  const { authorizated } = useAppSelector(profileSelector);
+  const { authorizated, name } = useAppSelector(profileSelector);
+
+  const location = useLocation();
+
+  const isMainPage: boolean = useMemo(
+    () => location.pathname === "/",
+    [location]
+  );
+
+  const isFeedPage: boolean = useMemo(
+    () => location.pathname === "/feed",
+    [location]
+  );
+
+  const isProfilePage: boolean = useMemo(
+    () => location.pathname === "/profile",
+    [location]
+  );
 
   return (
     <header className={styles.header}>
       <nav className={styles.navItem}>
         <NavLink to="/">
-          <BurgerIcon type="primary" />
+          <BurgerIcon type={isMainPage ? "primary" : "secondary"} />
           <span
-            className={`${styles.headerItemText} ${styles.active} text text_type_main-default mr-10 ml-2`}
+            className={`${
+              styles.headerItemText
+            }  text text_type_main-default mr-10 ml-2 ${
+              isMainPage ? styles.active : "text_color_inactive"
+            }`}
           >
             Конструктор
           </span>
         </NavLink>
 
-        <NavLink to="/">
-          <ListIcon type="secondary" />
+        <NavLink to="/feed">
+          <ListIcon type={isFeedPage ? "primary" : "secondary"} />
           <span
-            className={`${styles.headerItemText} text text_type_main-default ml-2 text_color_inactive`}
+            className={`${
+              styles.headerItemText
+            } text text_type_main-default ml-2 ${
+              isFeedPage ? styles.active : "text_color_inactive"
+            }`}
           >
             Лента заказов
           </span>
@@ -48,11 +74,15 @@ export const Header = () => {
         state={{ from: "/profile" }}
         className={styles.navItem}
       >
-        <ProfileIcon type="secondary" />
+        <ProfileIcon type={isProfilePage ? "primary" : "secondary"} />
         <span
-          className={`${styles.headerItemText} text text_type_main-default ml-2 text_color_inactive`}
+          className={`${
+            styles.headerItemText
+          } text text_type_main-default ml-2 ${
+            isProfilePage ? styles.active : "text_color_inactive"
+          }`}
         >
-          Личный кабинет
+          {!!name ? name : "Личный кабинет"}
         </span>
       </NavLink>
     </header>
