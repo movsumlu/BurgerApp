@@ -29,7 +29,7 @@ export const Header = () => {
   );
 
   const isProfilePage: boolean = useMemo(
-    () => location.pathname === "/profile",
+    () => location.pathname.includes("profile"),
     [location]
   );
 

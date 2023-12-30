@@ -10,6 +10,7 @@ interface IOrderState {
     number: number;
   } | null;
   showOrderModal: boolean;
+  showFeedModal: boolean;
   loading: boolean;
   errors: any;
 }
@@ -19,6 +20,7 @@ const initialState: IOrderState = {
   ingredients: [],
   order: null,
   showOrderModal: false,
+  showFeedModal: false,
   loading: false,
   errors: null,
 };
@@ -54,12 +56,12 @@ const orderSlice = createSlice({
       };
     },
     deleteIngredient(state, action) {
-      const deletedIngredient = [...state.ingredients];
-      deletedIngredient.splice(action.payload, 1);
+      const updatedIngredients = [...state.ingredients];
+      updatedIngredients.splice(action.payload, 1);
 
       return {
         ...state,
-        ingredients: [...deletedIngredient],
+        ingredients: [...updatedIngredients],
       };
     },
     clearOrder(state) {
@@ -69,16 +71,16 @@ const orderSlice = createSlice({
         ingredients: [],
       };
     },
-    displayOrderModal(state) {
+    displayModal(state, action) {
       return {
         ...state,
-        showOrderModal: true,
+        [action.payload]: true,
       };
     },
-    hideOrderModal(state) {
+    hideModal(state, action) {
       return {
         ...state,
-        showOrderModal: false,
+        [action.payload]: false,
       };
     },
   },
@@ -114,8 +116,8 @@ export const {
   replaceIngredients,
   deleteIngredient,
   clearOrder,
-  displayOrderModal,
-  hideOrderModal,
+  displayModal,
+  hideModal,
 } = orderSlice.actions;
 
 export default orderSlice.reducer;

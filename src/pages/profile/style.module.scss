@@ -1,6 +1,6 @@
 .profileBlock {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   margin-top: 100px;
 }
 
@@ -19,4 +19,10 @@
 
 .profileFormFooter {
   float: right;
+}
+
+.ordersSections {
+  height: 912px;
+  width: 844px;
+  overflow-y: auto;
 }
