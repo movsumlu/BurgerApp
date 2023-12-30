@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/BurgerApp/static/css/main.161f1eea.css",
-    "main.js": "/BurgerApp/static/js/main.10a1aef3.js",
+    "main.css": "/BurgerApp/static/css/main.a103dd22.css",
+    "main.js": "/BurgerApp/static/js/main.7c7a901f.js",
     "static/js/787.9241d6c7.chunk.js": "/BurgerApp/static/js/787.9241d6c7.chunk.js",
     "static/media/JetBrainsMono-Bold.woff": "/BurgerApp/static/media/JetBrainsMono-Bold.3914674f1cb2335acf26.woff",
     "static/media/JetBrainsMono-Regular.woff": "/BurgerApp/static/media/JetBrainsMono-Regular.f52bee61d00ce995b89f.woff",
@@ -12,12 +12,12 @@
     "static/media/3.png": "/BurgerApp/static/media/3.b340055e5f53851cc71f.png",
     "static/media/iceland.woff2": "/BurgerApp/static/media/iceland.4ae67a017a5ff82bbbb7.woff2",
     "index.html": "/BurgerApp/index.html",
-    "main.161f1eea.css.map": "/BurgerApp/static/css/main.161f1eea.css.map",
-    "main.10a1aef3.js.map": "/BurgerApp/static/js/main.10a1aef3.js.map",
+    "main.a103dd22.css.map": "/BurgerApp/static/css/main.a103dd22.css.map",
+    "main.7c7a901f.js.map": "/BurgerApp/static/js/main.7c7a901f.js.map",
     "787.9241d6c7.chunk.js.map": "/BurgerApp/static/js/787.9241d6c7.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.161f1eea.css",
-    "static/js/main.10a1aef3.js"
+    "static/css/main.a103dd22.css",
+    "static/js/main.7c7a901f.js"
   ]
 }
