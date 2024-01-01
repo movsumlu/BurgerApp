@@ -3,8 +3,10 @@ import { useState, useEffect } from "react";
 import { FeedItem } from "components/feed-item";
 
 import { ordersSelector } from "store/orders/selectors";
-import { WS_CONNECTION_START } from "store/orders/actions";
-import { wsClose } from "store/orders/slice";
+import {
+  WS_CONNECTION_START,
+  WS_CONNECTION_CLOSED,
+} from "store/orders/actions";
 
 import { useAppSelector } from "hooks/useAppSelector";
 import { useAppDispatch } from "hooks/useAppDispatch";
@@ -37,7 +39,7 @@ export const Feed = () => {
     });
 
     return () => {
-      dispatch(wsClose());
+      dispatch({ type: WS_CONNECTION_CLOSED });
     };
   }, [dispatch]);
 

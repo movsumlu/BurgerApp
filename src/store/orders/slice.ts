@@ -20,28 +20,38 @@ const ordersSlice = createSlice({
   name: "ordersList",
   initialState,
   reducers: {
-    wsConnection(state) {
+    WS_CONNECTION_START(state) {
       return {
         ...state,
         status: WebsocketStatus.CONNECTING,
       };
     },
-    wsOpen(state) {
+    WS_CONNECTION_SUCCESS(state) {
       return {
         ...state,
         status: WebsocketStatus.ONLINE,
       };
     },
-    wsClose(state) {
+    WS_CONNECTION_CLOSED(state) {
       return {
         ...state,
         status: WebsocketStatus.OFFLINE,
       };
     },
-    wsConnectionError(state, action) {
+    WS_CONNECTION_ERROR(state, action) {
       return {
         ...state,
         connectionError: action.payload,
+      };
+    },
+    NEW_ACTION(state, action) {
+      console.log("action:", action);
+
+      return {
+        ...state,
+        status: WebsocketStatus.ONLINE,
+        messages: action.payload,
+        error: null,
       };
     },
     onSelectOrder(state, action) {
@@ -50,24 +60,9 @@ const ordersSlice = createSlice({
         selectedOrder: action.payload,
       };
     },
-    wsGetMessages(state, action) {
-      return {
-        ...state,
-        status: WebsocketStatus.ONLINE,
-        messages: action.payload,
-        error: null,
-      };
-    },
   },
 });
 
-export const {
-  wsConnection,
-  wsOpen,
-  wsClose,
-  wsConnectionError,
-  wsGetMessages,
-  onSelectOrder,
-} = ordersSlice.actions;
+export const { onSelectOrder } = ordersSlice.actions;
 
 export default ordersSlice.reducer;

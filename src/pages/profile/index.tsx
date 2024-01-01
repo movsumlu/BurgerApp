@@ -12,8 +12,12 @@ import { useAppSelector } from "hooks/useAppSelector";
 import { useAppDispatch } from "hooks/useAppDispatch";
 
 import { logoutUser } from "store/profile/asyncThunks";
-import { WS_CONNECTION_START } from "store/orders/actions";
-import { wsClose } from "store/orders/slice";
+
+import {
+  WS_CONNECTION_START,
+  WS_CONNECTION_CLOSED,
+} from "store/orders/actions";
+
 import { ordersSelector } from "store/orders/selectors";
 
 import { useForm } from "hooks/useForm";
@@ -56,7 +60,7 @@ export const Profile = () => {
     });
 
     return () => {
-      dispatch(wsClose());
+      dispatch({ type: WS_CONNECTION_CLOSED });
       localStorage.removeItem("navItem");
     };
   }, [dispatch]);

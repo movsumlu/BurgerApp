@@ -1,13 +1,7 @@
 import { AnyAction, Middleware, MiddlewareAPI } from "redux";
+
 import { AppDispatch, RootState } from "store";
 import { TWSActionNames, TWSActions } from "store/orders/actions";
-
-import {
-  wsOpen,
-  wsGetMessages,
-  wsClose,
-  wsConnectionError,
-} from "store/orders/slice";
 
 export const socketMiddleware = (wsActions: TWSActionNames): Middleware => {
   return (store: MiddlewareAPI<AppDispatch, RootState>) => {
@@ -22,22 +16,23 @@ export const socketMiddleware = (wsActions: TWSActionNames): Middleware => {
 
       if (socket) {
         socket.onopen = () => {
-          dispatch(wsOpen());
+          dispatch({ type: wsActions.WS_CONNECTION_SUCCESS });
         };
 
         socket.onmessage = (event) => {
           const { data } = event;
+
           const parsedData = JSON.parse(data);
 
-          dispatch(wsGetMessages(parsedData));
+          dispatch({ type: wsActions.WS_GET_MESSAGE, payload: parsedData });
         };
 
         socket.onclose = () => {
-          dispatch(wsClose());
+          dispatch({ type: wsActions.WS_CONNECTION_CLOSED });
         };
 
         socket.onerror = (event) => {
-          dispatch(wsConnectionError(event));
+          dispatch({ type: wsActions.WS_CONNECTION_ERROR, payload: event });
         };
 
         if (action.type === wsActions.WS_SEND_MESSAGE) {
