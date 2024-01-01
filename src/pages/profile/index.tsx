@@ -57,6 +57,7 @@ export const Profile = () => {
 
     return () => {
       dispatch(wsClose());
+      localStorage.removeItem("navItem");
     };
   }, [dispatch]);
 
