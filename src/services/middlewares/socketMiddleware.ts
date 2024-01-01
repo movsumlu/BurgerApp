@@ -3,6 +3,8 @@ import { AnyAction, Middleware, MiddlewareAPI } from "redux";
 import { AppDispatch, RootState } from "store";
 import { TWSActionNames, TWSActions } from "store/orders/actions";
 
+import { wsGetMessages } from "store/orders/slice";
+
 export const socketMiddleware = (wsActions: TWSActionNames): Middleware => {
   return (store: MiddlewareAPI<AppDispatch, RootState>) => {
     let socket: WebSocket | null = null;
@@ -24,7 +26,7 @@ export const socketMiddleware = (wsActions: TWSActionNames): Middleware => {
 
           const parsedData = JSON.parse(data);
 
-          dispatch({ type: wsActions.WS_GET_MESSAGE, payload: parsedData });
+          dispatch(wsGetMessages(parsedData));
         };
 
         socket.onclose = () => {

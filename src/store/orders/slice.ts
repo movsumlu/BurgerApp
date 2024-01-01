@@ -44,9 +44,7 @@ const ordersSlice = createSlice({
         connectionError: action.payload,
       };
     },
-    NEW_ACTION(state, action) {
-      console.log("action:", action);
-
+    wsGetMessages(state, action) {
       return {
         ...state,
         status: WebsocketStatus.ONLINE,
@@ -63,6 +61,6 @@ const ordersSlice = createSlice({
   },
 });
 
-export const { onSelectOrder } = ordersSlice.actions;
+export const { wsGetMessages, onSelectOrder } = ordersSlice.actions;
 
 export default ordersSlice.reducer;
