@@ -1,4 +1,5 @@
-import { AnyAction } from "redux";
+import { AnyAction, Middleware, MiddlewareAPI } from "redux";
+import { AppDispatch, RootState } from "store";
 import { TWSActionNames, TWSActions } from "store/orders/actions";
 
 import {
@@ -8,9 +9,9 @@ import {
   wsConnectionError,
 } from "store/orders/slice";
 
-export const socketMiddleware = (wsActions: TWSActionNames) => {
-  return (store: { dispatch: any }) => {
-    let socket: any = null;
+export const socketMiddleware = (wsActions: TWSActionNames): Middleware => {
+  return (store: MiddlewareAPI<AppDispatch, RootState>) => {
+    let socket: WebSocket | null = null;
 
     return (next: (i: AnyAction) => void) => (action: TWSActions) => {
       const { dispatch } = store;
@@ -24,7 +25,7 @@ export const socketMiddleware = (wsActions: TWSActionNames) => {
           dispatch(wsOpen());
         };
 
-        socket.onmessage = (event: WebSocketEventMap & { data: string }) => {
+        socket.onmessage = (event) => {
           const { data } = event;
           const parsedData = JSON.parse(data);
 
@@ -35,7 +36,7 @@ export const socketMiddleware = (wsActions: TWSActionNames) => {
           dispatch(wsClose());
         };
 
-        socket.onerror = (event: WebSocketEventMap) => {
+        socket.onerror = (event) => {
           dispatch(wsConnectionError(event));
         };
 

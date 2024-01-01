@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { API_URL, checkOkResponse, checkSuccessResponse } from "services/API";
+import { getCookie } from "services/cookie";
 
 export const checkoutOrder = createAsyncThunk(
   "modal/checkoutOrder",
@@ -8,6 +9,7 @@ export const checkoutOrder = createAsyncThunk(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${getCookie("token")}`,
       },
       body: JSON.stringify({ ingredients: IDOfIngredients }),
     })

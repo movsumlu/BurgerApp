@@ -71,3 +71,10 @@ export const getStatus = (status: TOrderStatuses) => {
 
   return statuses[status] || "Статус вашего заказа не определен";
 };
+
+export const getOrderNumber = (url: string) => {
+  const parts = url.split("/");
+  const lastPart = parts[parts.length - 1];
+
+  return parseInt(lastPart);
+};

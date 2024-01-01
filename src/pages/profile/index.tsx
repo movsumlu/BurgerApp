@@ -39,7 +39,15 @@ export const Profile = () => {
     password: "",
   });
 
+  type TNavItem = "profile" | "orders";
+
   useEffect(() => {
+    const navItemFromLS = localStorage.getItem("navItem");
+
+    if (navItemFromLS) {
+      setActiveNav(navItemFromLS);
+    }
+
     const token = getCookie("token");
 
     dispatch({
@@ -53,7 +61,7 @@ export const Profile = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (messages?.orders && messages.orders.length) {
+    if (messages?.orders) {
       setOrders(messages.orders as IOrder[]);
     }
   }, [messages]);
@@ -65,6 +73,11 @@ export const Profile = () => {
     [formData]
   );
 
+  const handleNavChange = (navItem: TNavItem) => {
+    setActiveNav(navItem);
+    localStorage.setItem("navItem", navItem);
+  };
+
   return (
     <div className={styles.profileBlock}>
       <nav className={styles.navBlock}>
@@ -75,7 +88,7 @@ export const Profile = () => {
               ? styles.link__active
               : "text_color_inactive"
           } text text_type_main-medium`}
-          onClick={() => setActiveNav("profile")}
+          onClick={() => handleNavChange("profile")}
         >
           <span className="ml-2 pb-5">Профиль</span>
         </NavLink>
@@ -85,7 +98,7 @@ export const Profile = () => {
           className={`${styles.link} ${
             activeNav === "orders" ? styles.link__active : "text_color_inactive"
           } text text_type_main-medium`}
-          onClick={() => setActiveNav("orders")}
+          onClick={() => handleNavChange("orders")}
         >
           <span className="ml-2 pb-5">История заказов</span>
         </NavLink>

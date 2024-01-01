@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
 
 import { FeedItem } from "components/feed-item";
 
@@ -8,17 +7,19 @@ import { WS_CONNECTION_START } from "store/orders/actions";
 import { wsClose } from "store/orders/slice";
 
 import { useAppSelector } from "hooks/useAppSelector";
-
-import { splitArray } from "utils/helper";
+import { useAppDispatch } from "hooks/useAppDispatch";
 
 import { WS_ALL_ORDERS_URL } from "services/API";
+
+import { LOADING_TEXT } from "consts";
+import { splitArray } from "utils/helper";
 
 import { IOrder } from "types/interfaces";
 
 import styles from "./style.module.scss";
 
 export const Feed = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [total, setTotal] = useState(0);
   const [totalToday, setTotalToday] = useState(0);
@@ -135,6 +136,6 @@ export const Feed = () => {
       </div>
     </div>
   ) : (
-    <p>Идет загрузка...</p>
+    <p>{LOADING_TEXT}</p>
   );
 };
