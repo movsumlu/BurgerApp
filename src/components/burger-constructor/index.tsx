@@ -24,8 +24,8 @@ import {
   addIngredient,
   deleteIngredient,
   clearOrder,
-  displayOrderModal,
-  hideOrderModal,
+  displayModal,
+  hideModal,
 } from "store/order/slice";
 
 import { useAppSelector } from "hooks/useAppSelector";
@@ -81,13 +81,13 @@ export const BurgerConstructor = () => {
       await dispatch(checkoutOrder(IDOfIngredients));
 
       dispatch(clearOrder());
-      dispatch(displayOrderModal());
+      dispatch(displayModal("showOrderModal"));
     } else {
       navigate("/login", { state: { from: "/" }, replace: true });
     }
   };
 
-  const closeOrderModalHandler = () => dispatch(hideOrderModal());
+  const closeOrderModalHandler = () => dispatch(hideModal("showOrderModal"));
 
   const draggingOpacity = isDrag && styles.draggingOpacity;
 

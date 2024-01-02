@@ -1,0 +1,30 @@
+.feed {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ordersSection {
+  width: 600px;
+  max-height: 990px;
+  overflow-x: hidden;
+}
+
+.statusesWrapper {
+  display: flex;
+}
+
+.statuses {
+  width: 280px;
+  margin-right: 32px;
+}
+
+.statusesColumns {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.statusesColumn {
+  display: flex;
+  flex-flow: column wrap;
+  margin: 0 32px 32px 0;
+}

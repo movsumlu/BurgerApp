@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "store";
 
-type DispatchFunc = () => AppDispatch;
+type TDispatch = () => AppDispatch;
 
-export const useAppDispatch: DispatchFunc = useDispatch;
+export const useAppDispatch: TDispatch = useDispatch;

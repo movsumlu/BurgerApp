@@ -5,6 +5,7 @@ import { Header } from "components/header";
 import { IngredientDetails } from "components/ingredient-details";
 import { ProtectedRouteElement } from "components/protected-route-element";
 import { Modal } from "components/modal";
+import { FeedDetails } from "components/feed-details";
 
 import { Main } from "pages/main";
 import { Login } from "pages/login";
@@ -12,6 +13,7 @@ import { Register } from "pages/register";
 import { ForgotPassword } from "pages/forgot-password";
 import { ResetPassword } from "pages/reset-password";
 import { Profile } from "pages/profile";
+import { Feed } from "pages/feed";
 
 import { ERROR_TEXT } from "consts";
 
@@ -21,6 +23,8 @@ import { useAppSelector } from "hooks/useAppSelector";
 import { hideIngredientModal } from "store/ingredients/slice";
 import { ingredientsSelector } from "store/ingredients/selectors";
 import { fetchIngredients } from "store/ingredients/asyncThunks";
+
+import { hideModal } from "store/order/slice";
 
 import styles from "./style.module.scss";
 
@@ -38,9 +42,18 @@ export const App = () => {
     dispatch(fetchIngredients());
   }, [dispatch]);
 
-  const onCloseModalHandler = () => {
-    dispatch(hideIngredientModal());
-    navigate("/", { replace: true });
+  const onCloseModalHandler = (
+    typeOfModal: "ingredientModal" | "feedModal"
+  ) => {
+    if (typeOfModal === "ingredientModal") {
+      dispatch(hideIngredientModal());
+    }
+
+    if (typeOfModal === "feedModal") {
+      dispatch(hideModal("showFeedModal"));
+    }
+
+    navigate(-1);
   };
 
   return (
@@ -73,9 +86,23 @@ export const App = () => {
             />
 
             <Route
+              path="feed"
+              element={<ProtectedRouteElement element={<Feed />} />}
+            />
+
+            <Route path="/feed/:id" element={<FeedDetails />} />
+
+            <Route
               path="profile"
               element={<ProtectedRouteElement element={<Profile />} />}
             />
+
+            <Route
+              path="profile/orders"
+              element={<ProtectedRouteElement element={<Profile />} />}
+            />
+
+            <Route path="/profile/orders/:number" element={<FeedDetails />} />
 
             <Route path="/ingredients/:id" element={<IngredientDetails />} />
 
@@ -94,9 +121,27 @@ export const App = () => {
                 element={
                   <Modal
                     headerText="Детали ингредиента"
-                    onClose={onCloseModalHandler}
+                    onClose={() => onCloseModalHandler("ingredientModal")}
                   >
                     <IngredientDetails />
+                  </Modal>
+                }
+              />
+
+              <Route
+                path="/feed/:id"
+                element={
+                  <Modal onClose={() => onCloseModalHandler("feedModal")}>
+                    <FeedDetails />
+                  </Modal>
+                }
+              />
+
+              <Route
+                path="/profile/orders/:number"
+                element={
+                  <Modal onClose={() => onCloseModalHandler("feedModal")}>
+                    <FeedDetails />
                   </Modal>
                 }
               />
