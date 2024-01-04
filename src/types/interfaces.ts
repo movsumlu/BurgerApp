@@ -1,5 +1,3 @@
-import { TOrderStatuses } from "utils/helper";
-
 export interface IBurgerIngredientsItem {
   _id: string;
   image: string;
@@ -52,6 +50,8 @@ export interface IOrder {
   };
   __v: number;
 }
+
+export type TOrderStatuses = "done" | "created" | "pending";
 
 export enum WebsocketStatus {
   CONNECTING = "CONNECTING...",

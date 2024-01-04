@@ -39,6 +39,22 @@ export const loginUser = createAsyncThunk(
       })
 );
 
+export const logoutUser = createAsyncThunk("profile/logoutUser", () =>
+  fetch(`${LOGOUT_URL}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ token: localStorage.getItem("refreshToken") }),
+  })
+    .then(checkOkResponse)
+    .then(checkSuccessResponse)
+    .then(() => {
+      deleteAllCookies();
+      localStorage.removeItem("resetPasswordStepPassed");
+    })
+);
+
 export const registerUser = createAsyncThunk(
   "profile/registerUser",
   (formData: { email: string; password: string }) =>
@@ -57,20 +73,4 @@ export const registerUser = createAsyncThunk(
 
         return user;
       })
-);
-
-export const logoutUser = createAsyncThunk("profile/logoutUser", () =>
-  fetch(`${LOGOUT_URL}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ token: localStorage.getItem("refreshToken") }),
-  })
-    .then(checkOkResponse)
-    .then(checkSuccessResponse)
-    .then(() => {
-      deleteAllCookies();
-      localStorage.removeItem("resetPasswordStepPassed");
-    })
 );

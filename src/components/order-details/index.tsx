@@ -9,7 +9,9 @@ export const OrderDetails = (props: { orderNumber: number | null }) => {
 
   return (
     <div className={styles.orderDetails}>
-      <p className={`${styles.orderNumber} text text_type_digits-large`}>
+      <p
+        className={`${styles.orderNumber} text text_type_digits-large orderNumber`}
+      >
         {orderNumber}
       </p>
 

@@ -163,8 +163,8 @@ export const BurgerIngredients = () => {
         className={styles.burgerIngredientsWrapper}
         onScroll={handleOnScroll}
       >
-        {ingredientTypes.map(({ name, ref, items }) => (
-          <div key={name}>
+        {ingredientTypes.map(({ name, ref, items, value }) => (
+          <div key={name} id={value}>
             <h3 className="text text_type_main-medium mt-10" ref={ref}>
               {name}
             </h3>

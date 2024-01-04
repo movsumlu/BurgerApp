@@ -99,7 +99,7 @@ export const BurgerConstructor = () => {
       ref={drop}
     >
       <div
-        className={`${styles.burgerConstructorItemWrapper} ${draggingOpacity}`}
+        className={`${styles.burgerConstructorItemWrapper} ${draggingOpacity} burgerConstructorItemWrapper`}
       >
         {buns || ingredients.length ? (
           <>

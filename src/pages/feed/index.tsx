@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { FeedItem } from "components/feed-item";
 
 import { ordersSelector } from "store/orders/selectors";
+
 import {
   WS_CONNECTION_START,
   WS_CONNECTION_CLOSED,
@@ -13,7 +14,7 @@ import { useAppDispatch } from "hooks/useAppDispatch";
 
 import { WS_ALL_ORDERS_URL } from "services/API";
 
-import { LOADING_TEXT } from "consts";
+import { LOADING_TEXT } from "utils/consts";
 import { splitArray } from "utils/helper";
 
 import { IOrder } from "types/interfaces";

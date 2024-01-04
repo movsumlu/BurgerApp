@@ -20,7 +20,7 @@ const initialState: IIngredientsState = {
   errors: null,
 };
 
-const ingredientsSlice = createSlice({
+export const ingredientsSlice = createSlice({
   name: "ingredients",
   initialState,
   reducers: {
@@ -47,7 +47,6 @@ const ingredientsSlice = createSlice({
       };
     },
   },
-
   extraReducers: (builder) => {
     builder.addCase(fetchIngredients.pending, (state: IIngredientsState) => {
       return {
