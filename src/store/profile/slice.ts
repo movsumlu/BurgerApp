@@ -18,7 +18,7 @@ const initialState: IProfileState = {
   errors: null,
 };
 
-const profileSlice = createSlice({
+export const profileSlice = createSlice({
   name: "profileSlice",
   initialState,
   reducers: {},

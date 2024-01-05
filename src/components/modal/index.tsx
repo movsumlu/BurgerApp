@@ -33,7 +33,7 @@ export const Modal = (props: IModalProps) => {
                 {headerText}
               </div>
 
-              <button className={styles.modalCloseButton}>
+              <button className={`${styles.modalCloseButton} modalCloseButton`}>
                 <CloseIcon type={"primary"} onClick={onClose} />
               </button>
             </div>

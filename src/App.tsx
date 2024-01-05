@@ -15,7 +15,7 @@ import { ResetPassword } from "pages/reset-password";
 import { Profile } from "pages/profile";
 import { Feed } from "pages/feed";
 
-import { ERROR_TEXT } from "consts";
+import { ERROR_TEXT } from "utils/consts";
 
 import { useAppDispatch } from "hooks/useAppDispatch";
 import { useAppSelector } from "hooks/useAppSelector";
@@ -63,7 +63,9 @@ export const App = () => {
           <Header />
 
           <Routes location={background || location}>
-            <Route path="" element={<Main />} />
+            {["/", "/BurgerApp"].map((path) => (
+              <Route path={path} element={<Main />} />
+            ))}
 
             <Route
               path="login"

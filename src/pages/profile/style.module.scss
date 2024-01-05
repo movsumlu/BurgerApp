@@ -25,4 +25,14 @@
   height: 912px;
   width: 844px;
   overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    height: 12px;
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #8585ad;
+    border-radius: 6px;
+  }
 }

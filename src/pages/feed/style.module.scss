@@ -5,8 +5,18 @@
 
 .ordersSection {
   width: 600px;
-  max-height: 990px;
+  max-height: 965px;
   overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+    height: 12px;
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #8585ad;
+    border-radius: 6px;
+  }
 }
 
 .statusesWrapper {

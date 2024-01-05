@@ -19,7 +19,7 @@ import {
 
 import { IBurgerIngredientsItem } from "types/interfaces";
 
-import { LOADING_TEXT } from "consts";
+import { LOADING_TEXT } from "utils/consts";
 
 import { formatDate, getOrderNumber, getStatus } from "utils/helper";
 
@@ -53,7 +53,9 @@ export const FeedDetails = () => {
           .then(checkOkResponse)
           .then(checkSuccessResponse)
           .then(({ orders }) => {
-            setOrder(orders[0]);
+            if (orders.length) {
+              setOrder(orders[0]);
+            }
           })
           .catch((error) => {
             console.error(error);
@@ -72,11 +74,9 @@ export const FeedDetails = () => {
           if (targetIngredient) {
             targetIngredients.push(targetIngredient);
 
-            if (targetIngredient.type === "bun") {
-              totalPrice += 2 * targetIngredient.price;
-            } else {
-              totalPrice += targetIngredient.price;
-            }
+            totalPrice +=
+              (targetIngredient.type === "bun" ? 2 : 1) *
+              targetIngredient.price;
           }
         });
 

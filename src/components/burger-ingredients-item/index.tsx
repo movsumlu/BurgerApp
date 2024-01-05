@@ -59,7 +59,7 @@ export const BurgerIngredientsItem = (props: IBurgerIngredientsItemProps) => {
           <div
             key={item._id}
             ref={drag}
-            className={`${styles.ingredientsBlockItem} ${draggingOpacity}`}
+            className={`${styles.ingredientsBlockItem} ${draggingOpacity} ingredientsBlockItem`}
             onClick={() => selectIngredient(item)}
           >
             {countMap.get(item._id) && (

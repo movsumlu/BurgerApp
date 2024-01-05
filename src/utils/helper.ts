@@ -1,4 +1,4 @@
-import { IBurgerIngredientsItem } from "types/interfaces";
+import { IBurgerIngredientsItem, TOrderStatuses } from "types/interfaces";
 
 export const swapArrayElements = (
   array: IBurgerIngredientsItem[],
@@ -59,8 +59,6 @@ export const splitArray = (array: any, size: number) =>
     },
     [[]]
   );
-
-export type TOrderStatuses = "done" | "created" | "pending";
 
 export const getStatus = (status: TOrderStatuses) => {
   const statuses = {

@@ -1,5 +1,4 @@
-import { IBurgerIngredientsItem } from "types/interfaces";
-import { TOrderStatuses } from "utils/helper";
+import { IBurgerIngredientsItem, TOrderStatuses } from "types/interfaces";
 
 export const WS_CONNECTION_START: "WS_CONNECTION_START" = "WS_CONNECTION_START";
 export const WS_CONNECTION_CLOSE: "WS_CONNECTION_CLOSE" = "WS_CONNECTION_CLOSE";

@@ -7,7 +7,7 @@ import { ingredientsSelector } from "store/ingredients/selectors";
 import { useAppDispatch } from "hooks/useAppDispatch";
 import { useAppSelector } from "hooks/useAppSelector";
 
-import { NUTRITIONS } from "consts";
+import { NUTRITIONS } from "utils/consts";
 
 import styles from "./style.module.scss";
 
