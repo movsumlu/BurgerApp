@@ -19,7 +19,7 @@ export const Header = () => {
   const location = useLocation();
 
   const isMainPage: boolean = useMemo(
-    () => location.pathname === "/" || location.pathname === "/BurgerApp",
+    () => location.pathname === "/" || location.pathname === "/BurgerApp/",
     [location]
   );
 
