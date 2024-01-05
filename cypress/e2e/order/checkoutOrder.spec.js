@@ -1,6 +1,12 @@
 require("@4tw/cypress-drag-drop");
 
 describe("should checkout order", () => {
+  before(function () {
+    cy.fixture("mockUserData").then(function (mockUserData) {
+      this.mockUserData = mockUserData;
+    });
+  });
+
   it("should visit main page", () => {
     cy.visit("http://localhost:3000");
   });
@@ -29,8 +35,8 @@ describe("should checkout order", () => {
   });
 
   it("should login user", function () {
-    cy.get("input[type='email']").type("04-115@mail.ru");
-    cy.get("input[type='password']").type("Tabriz05!!!");
+    cy.get("input[type='email']").type(this.mockUserData.email);
+    cy.get("input[type='password']").type(this.mockUserData.password);
 
     cy.get("button").contains("Войти").click();
   });

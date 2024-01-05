@@ -63,7 +63,9 @@ export const App = () => {
           <Header />
 
           <Routes location={background || location}>
-            <Route path="" element={<Main />} />
+            {["/", "/BurgerApp"].map((path) => (
+              <Route path={path} element={<Main />} />
+            ))}
 
             <Route
               path="login"
