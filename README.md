@@ -1,8 +1,8 @@
 ### Burger App
 
-by React / Redux Toolkit / TypeScript
+by React / Redux Toolkit / TypeScript / Cypress
 
-#### [movsumlu.github.io/PizzaApp](https://movsumlu.github.io/BurgerApp/)
+#### [movsumlu.github.io/BurgerApp](https://movsumlu.github.io/BurgerApp/)
 
 #### project setup
 
@@ -16,6 +16,12 @@ compiles and minifies for production
 
 ```bash
 npm run build
+```
+
+run E2E tests
+
+```bash
+npm run cypress
 ```
 
 deploy project on GitHub Pages
